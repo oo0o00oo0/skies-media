@@ -17,8 +17,8 @@ const CombinedColourPlane = (props: Props) => {
   const mask = useTexture("/images/mask.jpg");
 
   return (
-    <group scale={0.95}>
-      <mesh scale={[viewport.height, viewport.height, viewport.height]}>
+    <group rotation-z={Math.PI * -0.5}>
+      <mesh scale={[viewport.width, viewport.width, viewport.width]}>
         <planeGeometry args={[0.314085, 1, 1]} />
         <CombinedColourMaterial mask={mask} value={value} textures={textures} />
       </mesh>

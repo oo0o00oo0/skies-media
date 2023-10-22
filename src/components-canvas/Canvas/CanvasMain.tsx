@@ -2,7 +2,6 @@ import { OrthographicCamera } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
 import { Vector3 } from "three";
-// import CombinedColourPlane from "../CombinedColourPlane/CombinedColourPlane";
 import styled from "styled-components";
 import SaveFile from "../SaveFile/SaveFile";
 // import MultiColorPlane from "../MultiColorPlane/MultiColorPlane";
@@ -40,10 +39,10 @@ export default CanvasMain;
 
 const CanvasWrapper = styled.div`
   height: 100%;
-  width: 2000px;
-  height: 700px;
-  /* width: 3448px;
-  height: 1080px; */
+  /* width: 2000px;
+  height: 700px; */
+  width: 3448px;
+  height: 1080px;
   /* min-height: 3; */
   /* height: 70vh; */
   border: #8b8b8b solid 2px;
