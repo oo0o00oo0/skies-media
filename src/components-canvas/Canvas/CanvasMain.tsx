@@ -16,11 +16,18 @@ function CanvasMain({ urls, value, save }: Props) {
   return (
     <Wr>
       <CanvasWrapper>
-        <Canvas frameloop="demand" gl={{ preserveDrawingBuffer: true }} flat>
+        <Canvas
+          //
+          frameloop="demand"
+          //
+          gl={{ preserveDrawingBuffer: true }}
+          flat
+        >
           <OrthographicCamera zoom={1} position={new Vector3(0, 0, 1)} />
           <Suspense fallback={null}>
             <CombinedColourPlane save={save} value={value} urls={urls} />
             <SaveFile save={save} value={value} />
+            {/* <Perf /> */}
           </Suspense>
         </Canvas>
       </CanvasWrapper>

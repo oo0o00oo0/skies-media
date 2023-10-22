@@ -79,7 +79,12 @@ const InputWrapper = styled.input`
   flex-grow: 1;
 `;
 
-const ValueWrapper = styled.div``;
+const ValueWrapper = styled.div`
+  text-align: left;
+  /* border: red solid 2px; */
+  margin-bottom: 8px;
+  width: 60px;
+`;
 
 const ValuesWrapper = styled.div`
   display: flex;

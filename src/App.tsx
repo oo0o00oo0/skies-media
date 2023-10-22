@@ -7,10 +7,10 @@ import { animate } from "@lib/animate";
 import { fileNames } from "@data/fileNames";
 import styled from "styled-components";
 
-const step = 0.1;
+const step = 0.025;
 
 function App() {
-  const urls = fileNames.map((file) => `/images/test/${file}.jpg`);
+  const urls = fileNames.map((file) => `/images/skies/${file}.jpg`);
   const [value, setValue] = React.useState(0);
   const [isAnimating, setIsAnimating] = React.useState(false);
   const [save, setSave] = React.useState(false);

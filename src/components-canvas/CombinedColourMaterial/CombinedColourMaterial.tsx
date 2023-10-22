@@ -24,6 +24,11 @@ const CombinedColourShader = shaderMaterial(
     uMask: { value: THREE.Texture },
     uDispFactor: { value: 0.0 },
     uBlend: 0.0,
+    uMix: 0.0,
+
+    uUV_0: { value: THREE.Vector2 },
+    uUV_1: { value: THREE.Vector2 },
+
     uOffset: { value: 0.0 },
     uColor: new THREE.Color(),
   },
@@ -53,6 +58,8 @@ const CombinedColourMaterial = (props: Props) => {
     // @ts-ignore
     <combinedColourShader
       uMask={mask}
+      uUV_0={new THREE.Vector2(1.0, 1.0)}
+      uUV_1={new THREE.Vector2(1.0, 1.0)}
       transparent={true}
       ref={shaderRef}
       toneMapped={false}
