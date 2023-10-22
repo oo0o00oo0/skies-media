@@ -64,5 +64,5 @@ void main() {
   //   finalTexture = mix(_texture_1, _texture2_1, uBlend);
   // }
 
-  fragColor = vec4(finalTexture.xyz, mask.a);
+  fragColor = vec4(finalTexture.xyz, mask.r);
 }
