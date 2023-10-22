@@ -7,7 +7,7 @@ import { animate } from "@lib/animate";
 import { fileNames } from "@data/fileNames";
 import styled from "styled-components";
 
-const step = 0.025;
+const step = 0.005;
 
 function App() {
   const urls = fileNames.map((file) => `/images/skies/${file}.jpg`);

@@ -39,11 +39,13 @@ void main() {
 
   vec2 uv_grid_blend = mix(t0, t1, uBlend);
 
+  vec2 uv_grid_blend2 = mix(t0, t1, uBlend) * 0.5;
+
   vec4 disp = texture2D(uTexture, uv_grid_blend);
   vec4 disp2 = texture2D(uNextTexture, uv_grid_blend);
 
-  vec2 distortedPosition = vec2(uv_grid_blend.x + uBlend * (disp.r * 1.), uv_grid_blend.y);
-  vec2 distortedPosition2 = vec2(uv_grid_blend.x - (1.0 - uBlend) * (disp2.r * 1.), uv_grid_blend.y);
+  vec2 distortedPosition = vec2(uv_grid_blend2.x + uBlend * (disp.r * 1.), uv_grid_blend2.y);
+  vec2 distortedPosition2 = vec2(uv_grid_blend2.x - (1.0 - uBlend) * (disp2.r * 1.), uv_grid_blend2.y);
   vec2 dist = mix(distortedPosition, distortedPosition2, uBlend);
 
   vec4 _texture = texture2D(uTexture, distortedPosition);
@@ -51,37 +53,6 @@ void main() {
 
   vec4 finalTexture = mix(_texture, _texture2, uBlend);
 
-  // vec4 grid_texture_1 = texture2D(uTexture, st);
-  // vec4 grid_texture_2 = texture2D(uNextTexture, st);
-
-  // vec4 gridTexture_blend = mix(grid_texture_1, grid_texture_2, uBlend);
-
-  // vec4 grid_finalTexture = mix(_texture, gridTexture_blend, uBlend);
-
-  // vec4 outPut = mix(finalTexture, grid_finalTexture, uBlend);
-
   gl_FragColor = vec4(finalTexture.xyz, mask);
 
 }
-
-// vec2 st2 = vec2(vUv.x, vUv.y) * grid2;
-  // st2 = fract(st2); // Wrap around 1.0
-
-  // vec4 testTex1 = texture2D(uTexture, st1);
-  // vec4 testTex2 = texture2D(uTexture, st2);
-
-  // vec4 testText = mix(testTex1, testTex2, uBlend);
-
-  // vec4 white = vec4(vec3(1.0), 1.);
-  // vec4 black = vec4(vec3(0.0), 1.);
-
-  // vec4 disp = texture2D(uTexture, st);
-  // vec4 disp2 = texture2D(uNextTexture, st);
-
-  // vec2 distortedPosition = vec2(vUv.x + uBlend * (disp.r * 1.), vUv.y);
-  // vec2 distortedPosition2 = vec2(vUv.x - (1.0 - uBlend) * (disp2.r * 1.), vUv.y);
-
- // vec4 _texture = texture2D(uTexture, distortedPosition);
-  // vec4 _texture2 = texture2D(uNextTexture, distortedPosition2);
-
-  // vec4 finalTexture = mix(white, black, uBlend);
