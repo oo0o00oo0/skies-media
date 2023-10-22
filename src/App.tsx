@@ -10,7 +10,7 @@ import styled from "styled-components";
 const step = 0.1;
 
 function App() {
-  const urls = fileNames.map((file) => `/images/skies/${file}.jpg`);
+  const urls = fileNames.map((file) => `/images/test/${file}.jpg`);
   const [value, setValue] = React.useState(0);
   const [isAnimating, setIsAnimating] = React.useState(false);
   const [save, setSave] = React.useState(false);

@@ -3,7 +3,7 @@ import * as THREE from "three";
 //@ts-ignore
 import vertex from "./glsl/vertex.glsl";
 //@ts-ignore
-import fragment from "./glsl/fragment.glsl";
+import fragment from "./glsl/fragment.frag";
 import { extend, useThree } from "@react-three/fiber";
 
 import shaderMaterial from "@lib/dreiShaderMaterial";
@@ -12,6 +12,7 @@ import { updateShader } from "@lib/shaderUtils";
 type Props = {
   textures: any[];
   value: number;
+  mask: THREE.Texture;
 };
 
 const CombinedColourShader = shaderMaterial(
@@ -20,6 +21,7 @@ const CombinedColourShader = shaderMaterial(
     uTextureAtlas: { value: THREE.Texture },
     uTexture: { value: THREE.Texture },
     uNextTexture: { value: THREE.Texture },
+    uMask: { value: THREE.Texture },
     uDispFactor: { value: 0.0 },
     uBlend: 0.0,
     uOffset: { value: 0.0 },
@@ -35,7 +37,7 @@ extend({ CombinedColourShader });
 const CombinedColourMaterial = (props: Props) => {
   const { invalidate } = useThree();
 
-  const { textures, value } = props;
+  const { textures, value, mask } = props;
 
   const shaderRef = React.useRef<any>();
 
@@ -50,6 +52,7 @@ const CombinedColourMaterial = (props: Props) => {
   return (
     // @ts-ignore
     <combinedColourShader
+      uMask={mask}
       transparent={true}
       ref={shaderRef}
       toneMapped={false}

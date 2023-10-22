@@ -57,13 +57,9 @@ const ControlsWrapper = styled.div`
   flex-grow: 1;
   box-sizing: border-box;
 
-  padding: 40px;
-
-  /* flex-grow: 1; */
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
 `;
 
 const ButtonWrapper = styled.div`
@@ -72,10 +68,9 @@ const ButtonWrapper = styled.div`
 
 const Button = styled.button`
   transition: 0.2s ease-in-out;
-
+  border: black solid 2px;
+  box-sizing: border-box;
   flex: 1;
-  max-width: 100px;
-  max-height: 50px;
 `;
 
 const InputWrapper = styled.input`
@@ -89,6 +84,6 @@ const ValueWrapper = styled.div``;
 const ValuesWrapper = styled.div`
   display: flex;
   align-items: center;
-  gap: 4px;
+  /* gap: 4px; */
   flex-wrap: wrap;
 `;

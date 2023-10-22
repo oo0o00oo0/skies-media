@@ -14,11 +14,15 @@ const CombinedColourPlane = (props: Props) => {
 
   const textures = useTexture(urls);
 
+  const mask = useTexture("/images/mask.jpg");
+
   return (
-    <mesh scale={[viewport.width * 0.66, viewport.width, viewport.width]}>
-      <planeGeometry args={[1, 1, 1]} />
-      <CombinedColourMaterial value={value} textures={textures} />
-    </mesh>
+    <group scale={0.95}>
+      <mesh scale={[viewport.height, viewport.height, viewport.height]}>
+        <planeGeometry args={[0.314085, 1, 1]} />
+        <CombinedColourMaterial mask={mask} value={value} textures={textures} />
+      </mesh>
+    </group>
   );
 };
 
