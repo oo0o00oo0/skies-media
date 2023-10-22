@@ -23,7 +23,7 @@ const test = [
 
 export const updateShader = (
   shader: THREE.ShaderMaterial,
-  { textures, value }
+  { textures, shuffle, value }
 ) => {
   const index = {
     value: Math.floor(value),
@@ -32,9 +32,12 @@ export const updateShader = (
   shader.uniforms.uBlend.value = value - index.value;
 
   shader.uniforms.uTexture.value = textures[index.value % textures.length];
-
   shader.uniforms.uNextTexture.value =
     textures[(index.value + 1) % textures.length];
+
+  shader.uniforms.uTexture_1.value = shuffle[index.value % shuffle.length];
+  shader.uniforms.uNextTexture_1.value =
+    shuffle[(index.value + 1) % shuffle.length];
 
   shader.uniforms.uUV_0.value = new Vector2(...test[index.value % test.length]);
   shader.uniforms.uUV_1.value = new Vector2(

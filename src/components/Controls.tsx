@@ -36,7 +36,7 @@ const Controls = ({
       <ValueWrapper>{value}</ValueWrapper>
       <ValuesWrapper>
         {files.map((_, index) => (
-          <Button
+          <Number
             style={{
               background: value >= index ? "#ACB5BF" : "",
             }}
@@ -44,7 +44,7 @@ const Controls = ({
             onClick={() => setVal(index)}
           >
             {index}
-          </Button>
+          </Number>
         ))}
       </ValuesWrapper>
     </ControlsWrapper>
@@ -71,6 +71,14 @@ const Button = styled.button`
   border: black solid 2px;
   box-sizing: border-box;
   flex: 1;
+`;
+const Number = styled.button`
+  transition: 0.2s ease-in-out;
+  border: black solid 2px;
+  box-sizing: border-box;
+  flex: 1;
+
+  font-size: 10px;
 `;
 
 const InputWrapper = styled.input`

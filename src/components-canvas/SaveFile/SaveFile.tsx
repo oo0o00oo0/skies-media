@@ -16,6 +16,8 @@ const SaveFile = ({ value, save }) => {
   // console.log(Math.sqrt(gl.capabilities.maxTextureSize));
   // console.log(gl.capabilities);
 
+  // console.log(gl);
+
   React.useEffect(() => {
     if (save) saveFile(gl, scene, camera, value);
   }, [save, value, gl, scene, camera]);

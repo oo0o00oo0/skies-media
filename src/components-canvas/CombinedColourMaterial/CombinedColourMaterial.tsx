@@ -5,6 +5,7 @@ import vertex from "./glsl/vertex.glsl";
 //@ts-ignore
 import fragment from "./glsl/fragment.frag";
 import { extend, useThree } from "@react-three/fiber";
+import { shuffle } from "lodash-es";
 
 import shaderMaterial from "@lib/dreiShaderMaterial";
 import { updateShader } from "@lib/shaderUtils";
@@ -17,14 +18,18 @@ type Props = {
 
 const CombinedColourShader = shaderMaterial(
   {
+    //
+
+    uTextures: { value: [] },
     uDisplaceTexture: { value: THREE.Texture },
     uTextureAtlas: { value: THREE.Texture },
     uTexture: { value: THREE.Texture },
     uNextTexture: { value: THREE.Texture },
+    uTexture_1: { value: THREE.Texture },
+    uNextTexture_1: { value: THREE.Texture },
     uMask: { value: THREE.Texture },
     uDispFactor: { value: 0.0 },
     uBlend: 0.0,
-    uMix: 0.0,
 
     uUV_0: { value: THREE.Vector2 },
     uUV_1: { value: THREE.Vector2 },
@@ -46,17 +51,22 @@ const CombinedColourMaterial = (props: Props) => {
 
   const shaderRef = React.useRef<any>();
 
+  const [shuffled] = React.useState<any[]>(shuffle(textures));
+
   React.useEffect(() => {
     updateShader(shaderRef.current, {
       textures: textures,
+      shuffle: shuffled,
       value,
     });
     invalidate();
-  }, [invalidate, textures, value]);
+  }, [invalidate, shuffled, textures, value]);
 
   return (
     // @ts-ignore
     <combinedColourShader
+      glslVersion={THREE.GLSL3}
+      // uTextures={textures.slice(0, 12)}
       uMask={mask}
       uUV_0={new THREE.Vector2(1.0, 1.0)}
       uUV_1={new THREE.Vector2(1.0, 1.0)}
