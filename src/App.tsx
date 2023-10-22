@@ -4,30 +4,13 @@ import React from "react";
 import CanvasMain from "./components-canvas/Canvas/CanvasMain";
 import Controls from "./components/Controls";
 import { animate } from "@lib/animate";
+import { fileNames } from "@data/fileNames";
+import styled from "styled-components";
 
-const files = [
-  "1",
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "1",
-  "2",
-  "1",
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "1",
-  "2",
-];
-
-const step = 0.01;
+const step = 0.1;
 
 function App() {
-  const urls = files.map((file) => `/images/atlas/${file}.jpg`);
+  const urls = fileNames.map((file) => `/images/skies/${file}.jpg`);
   const [value, setValue] = React.useState(0);
   const [isAnimating, setIsAnimating] = React.useState(false);
   const [save, setSave] = React.useState(false);
@@ -41,7 +24,7 @@ function App() {
           setValue((v) => Math.round((v + step) * 1000) / 1000);
         },
         {
-          limit: (files.length - 1) * (1 / step),
+          limit: (fileNames.length - 1) * (1 / step),
           reset: () => setIsAnimating(false),
         }
       );
@@ -66,21 +49,34 @@ function App() {
   };
 
   return (
-    <>
+    <Wr>
       <CanvasMain save={save} value={value} urls={urls} />
       <Controls
         save={save}
         setSave={setSave}
         step={step}
-        files={files}
+        files={fileNames}
         start={start}
         reset={reset}
         setVal={setValue}
         handleChange={handleChange}
         value={value}
       />
-    </>
+    </Wr>
   );
 }
+
+const Wr = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+`;
 
 export default App;

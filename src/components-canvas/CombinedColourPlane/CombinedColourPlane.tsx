@@ -15,7 +15,7 @@ const CombinedColourPlane = (props: Props) => {
   const textures = useTexture(urls);
 
   return (
-    <mesh scale={[viewport.width, viewport.height, viewport.height]}>
+    <mesh scale={[viewport.width * 0.66, viewport.width, viewport.width]}>
       <planeGeometry args={[1, 1, 1]} />
       <CombinedColourMaterial value={value} textures={textures} />
     </mesh>

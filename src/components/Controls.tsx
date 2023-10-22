@@ -36,7 +36,13 @@ const Controls = ({
       <ValueWrapper>{value}</ValueWrapper>
       <ValuesWrapper>
         {files.map((_, index) => (
-          <Button key={index} onClick={() => setVal(index)}>
+          <Button
+            style={{
+              background: value >= index ? "#ACB5BF" : "",
+            }}
+            key={index}
+            onClick={() => setVal(index)}
+          >
             {index}
           </Button>
         ))}
@@ -48,13 +54,12 @@ const Controls = ({
 export default Controls;
 
 const ControlsWrapper = styled.div`
+  flex-grow: 1;
   box-sizing: border-box;
-  height: 15vh;
-  width: 90vw;
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
+
+  padding: 40px;
+
+  /* flex-grow: 1; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -66,9 +71,11 @@ const ButtonWrapper = styled.div`
 `;
 
 const Button = styled.button`
+  transition: 0.2s ease-in-out;
+
   flex: 1;
-  max-width: 100px; // or any size you prefer
-  max-height: 50px; // or any size you prefer
+  max-width: 100px;
+  max-height: 50px;
 `;
 
 const InputWrapper = styled.input`
