@@ -18,8 +18,8 @@ uniform vec2 uUV_1;
 
 uniform sampler2D uMask;
 
-// uniform sampler2D uTextures[12]; // Use a sampler2D array to hold your textures
-// uniform int uTextureIndex; // Index of the texture to be used
+uniform sampler2D uTextures[16]; // Use a sampler2D array to hold your textures
+uniform int uTextureIndex; // Index of the texture to be used
 
 uniform sampler2D uTextureAtlas;
 
@@ -60,9 +60,9 @@ void main() {
 
   vec4 finalTexture = mix(_texture, _texture2, uBlend);
 
-  // if(vUv.y > 0.5) {
-  //   finalTexture = mix(_texture_1, _texture2_1, uBlend);
-  // }
+  if(vUv.y > 0.5) {
+    finalTexture = mix(_texture_1, _texture2_1, uBlend);
+  }
 
-  fragColor = vec4(finalTexture.xyz, mask.r);
+  fragColor = vec4(finalTexture.xyz, mask.a);
 }
