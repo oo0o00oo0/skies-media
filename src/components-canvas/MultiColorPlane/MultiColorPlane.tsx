@@ -1,4 +1,4 @@
-import { meshData, UV_0, UV_1 } from "@data/meshData";
+import { meshData, MASK_UVS, UV_1, UVARRAY } from "@data/meshData";
 import { useThree } from "@react-three/fiber";
 import React from "react";
 import MultiColourMaterial from "../MultiColourMaterial/MultiColourMaterial";
@@ -21,7 +21,7 @@ const MultiColorPlane = ({ urls, value }) => {
 
   React.useEffect(() => {
     refs.forEach((ref, i) => {
-      ref.current.updateBuffer(value, UV_1[i], shuffled[i]);
+      ref.current.updateBuffer(value, shuffled[i], UVARRAY[i]);
     });
     invalidate();
   }, [invalidate, value, refs, textures, shuffled]);
@@ -33,7 +33,7 @@ const MultiColorPlane = ({ urls, value }) => {
       {meshData.map((data, i) => (
         <MeshElement
           mask={mask}
-          maskUVs={UV_0[i]}
+          maskUVs={MASK_UVS[i]}
           ref={refs[i]}
           url={urls[i]}
           key={i}
@@ -61,10 +61,20 @@ const MeshElement = React.forwardRef(
     const geoRef = React.useRef<any>(null);
     const shaderRef = React.useRef<any>(null);
 
-    const updateBuffer = (value, uvData: number[], textures) => {
+    const updateBuffer = (value, textures, UVARRAY) => {
+      const index = {
+        value: Math.floor(value),
+      };
+
       const uvAttribute = geoRef.current.attributes.uv;
-      uvAttribute.set(Float32Array.from(uvData));
+      uvAttribute.set(Float32Array.from(UVARRAY[index.value % UVARRAY.length]));
       uvAttribute.needsUpdate = true;
+
+      const uvNextAttribute = geoRef.current.attributes.uvNext;
+      uvNextAttribute.set(
+        Float32Array.from(UVARRAY[(index.value + 1) % UVARRAY.length])
+      );
+      uvNextAttribute.needsUpdate = true;
       shaderRef.current.updateShader(value, textures);
     };
 
@@ -95,6 +105,13 @@ const MeshElement = React.forwardRef(
             count={UV_1[0].length}
             itemSize={2}
           />
+          <bufferAttribute
+            attach="attributes-uvNext"
+            array={Float32Array.from(UV_1[0])}
+            count={UV_1[0].length}
+            itemSize={2}
+          />
+
           <bufferAttribute
             attach="attributes-uvMask"
             array={Float32Array.from(maskUVs)}

@@ -25,7 +25,7 @@ export const meshData = [
   },
 ];
 
-export const UV_0 = [
+export const MASK_UVS = [
   [0, 0, 0, 0.5, 0.5, 0.5, 0.5, 0],
   [0.5, 0, 0.5, 0.5, 1, 0.5, 1, 0],
   [0, 0.5, 0, 1, 0.5, 1, 0.5, 0.5],
@@ -37,4 +37,11 @@ export const UV_1 = [
   [0, 0, 1, 0, 1, 1, 0, 1],
   [0, 0, 1, 0, 1, 1, 0, 1],
   [0, 0, 1, 0, 1, 1, 0, 1],
+];
+
+export const UVARRAY = [
+  [UV_1[0], MASK_UVS[0]],
+  [UV_1[1], MASK_UVS[1]],
+  [UV_1[2], MASK_UVS[2]],
+  [UV_1[3], MASK_UVS[3]],
 ];
