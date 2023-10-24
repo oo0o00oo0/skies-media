@@ -1,27 +1,27 @@
-import { meshData, MASK_UVS, UV_1, UVARRAY } from "@data/meshData";
+import { meshData, MASK_UVS, UVARRAY } from "@data/meshData";
 import { useThree } from "@react-three/fiber";
 import React from "react";
 import MultiColourMaterial from "../MultiColourMaterial/MultiColourMaterial";
 import { useTexture } from "@react-three/drei";
-import { shuffle } from "lodash-es";
+// import { shuffle } from "lodash-es";
 
 const MultiColorPlane = ({ urls, value }) => {
   const { viewport, invalidate } = useThree();
-
+  // TODO WERID ARRAY MAPPING
   const textures = useTexture(urls);
+  const t = useTexture([urls[0], urls[0], urls[0], urls[0], urls[0], urls[0]]);
 
-  const [shuffled] = React.useState([
-    shuffle(textures),
-    shuffle(textures),
-    shuffle(textures),
-    shuffle(textures),
-  ]);
+  const [shuffled] = React.useState([textures, textures, t]);
 
   const refs = meshData.map(() => React.createRef<any>());
 
   React.useEffect(() => {
     refs.forEach((ref, i) => {
-      ref.current.updateBuffer(value, shuffled[i], UVARRAY[i]);
+      ref.current.updateBuffer(
+        value,
+        shuffled[i % shuffled.length],
+        UVARRAY[i]
+      );
     });
     invalidate();
   }, [invalidate, value, refs, textures, shuffled]);
@@ -38,7 +38,6 @@ const MultiColorPlane = ({ urls, value }) => {
           url={urls[i]}
           key={i}
           data={data}
-          uv={UV_1[i]}
         />
       ))}
     </group>
@@ -51,7 +50,6 @@ interface MeshElementProps {
     position: number[];
   };
   url: string;
-  uv: number[];
   mask: THREE.Texture;
   maskUVs: number[];
 }
@@ -101,14 +99,14 @@ const MeshElement = React.forwardRef(
 
           <bufferAttribute
             attach="attributes-uv"
-            array={Float32Array.from(UV_1[0])}
-            count={UV_1[0].length}
+            array={Float32Array.from(maskUVs)}
+            count={maskUVs.length}
             itemSize={2}
           />
           <bufferAttribute
             attach="attributes-uvNext"
-            array={Float32Array.from(UV_1[0])}
-            count={UV_1[0].length}
+            array={Float32Array.from(maskUVs)}
+            count={maskUVs.length}
             itemSize={2}
           />
 

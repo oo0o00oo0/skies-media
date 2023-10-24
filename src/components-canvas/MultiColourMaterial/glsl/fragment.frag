@@ -26,16 +26,19 @@ uniform sampler2D uMask;
 uniform sampler2D uTextureAtlas;
 
 in vec2 vUv;
+in vec2 vUv2;
 in vec2 vUvmask;
 
 layout(location = 0) out vec4 fragColor;
 
 void main() {
 
+  vec2 uVBlend = mix(vUv, vUv2, uBlend);
+
   vec4 mask = texture(uMask, vUvmask);
 
-  vec4 _texture = texture(uTexture, vUv);
-  vec4 _texture2 = texture(uNextTexture, vUv);
+  vec4 _texture = texture(uTexture, uVBlend);
+  vec4 _texture2 = texture(uNextTexture, uVBlend);
 
   vec4 finalTexture = mix(_texture, _texture2, uBlend);
   // fragColor = vec4(finalTexture.xyz, 1.);

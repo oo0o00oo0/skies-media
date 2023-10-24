@@ -19,9 +19,9 @@ void main() {
 
   vUvmask = uvMask;
 
-  vUv2 = uvNext;
   vPos = position;
   vUv = uv;
+  vUv2 = uvNext;
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 
