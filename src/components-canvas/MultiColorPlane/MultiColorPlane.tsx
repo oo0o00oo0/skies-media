@@ -11,7 +11,7 @@ const MultiColorPlane = ({ urls, value }) => {
   const textures = useTexture(urls);
   const t = useTexture([urls[0], urls[0], urls[0], urls[0], urls[0], urls[0]]);
 
-  const [shuffled] = React.useState([textures, textures, t]);
+  const [shuffled] = React.useState([t, t, t]);
 
   const refs = meshData.map(() => React.createRef<any>());
 
