@@ -27,32 +27,38 @@ in vec2 vUv;
 
 layout(location = 0) out vec4 fragColor;
 
-void main() {
+float random(in float x) {
+  return fract(sin(x) * 1e4);
+}
 
+float random(in vec2 st) {
+  return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
+}
+
+void main() {
   vec4 mask = texture(uMask, vec2(vUv.y, vUv.x));
 
-  vec2 t0 = vec2(vUv.x, vUv.y) * uUV_0.y;
-  vec2 t1 = vec2(vUv.x, vUv.y) * uUV_1.y;
-
+  vec2 t0 = vec2(vUv.x, vUv.y) * uUV_0;
+  vec2 t1 = vec2(vUv.x, vUv.y) * uUV_1;
   t0 = fract(t0);
   t1 = fract(t1);
 
   vec2 uv_grid_blend = mix(t0, t1, uBlend);
-
-  // vec4 _texture = texture(uTexture, uv_grid_blend);
-  // vec4 _texture2 = texture(uNextTexture, uv_grid_blend);
+  vec2 uv_grid_blend2 = mix(t0, t1, uBlend);
 
   vec4 disp = texture(uTexture, uv_grid_blend);
   vec4 disp2 = texture(uNextTexture, uv_grid_blend);
 
-  vec2 distortedPosition = vec2(uv_grid_blend.x + uBlend * (disp.r * 1.0), uv_grid_blend.y);
-  vec2 distortedPosition2 = vec2(uv_grid_blend.x - (1.0 - uBlend) * (disp2.r * 1.0), uv_grid_blend.y);
+  vec2 distortedPosition = vec2(uv_grid_blend2.x + uBlend * (disp.r * 1.0), uv_grid_blend2.y);
+  vec2 distortedPosition2 = vec2(uv_grid_blend2.x - (1.0 - uBlend) * (disp2.r * 1.0), uv_grid_blend2.y);
 
   vec4 _texture = texture(uTexture, distortedPosition);
   vec4 _texture2 = texture(uNextTexture, distortedPosition2);
 
+  vec4 _texture_1 = texture(uTexture_1, distortedPosition);
+  vec4 _texture2_1 = texture(uNextTexture_1, distortedPosition2);
+
   vec4 finalTexture = mix(_texture, _texture2, uBlend);
-  fragColor = vec4(finalTexture.xyz, mask.r);
 
   // if(vUv.y > 0.5) {
   //   finalTexture = mix(_texture_1, _texture2_1, uBlend);
@@ -60,6 +66,3 @@ void main() {
 
   fragColor = vec4(finalTexture.xyz, mask.r);
 }
-
-  // vec4 _texture_1 = texture(uTexture_1, distortedPosition);
-  // vec4 _texture2_1 = texture(uNextTexture_1, distortedPosition2);
