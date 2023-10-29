@@ -9,7 +9,7 @@ const MultiColorPlane = ({ urls, value }) => {
   const { viewport, invalidate } = useThree();
   // TODO WERID ARRAY MAPPING
   const textures = useTexture(urls);
-  const t = useTexture([urls[0], urls[0], urls[0], urls[0], urls[0], urls[0]]);
+  const t = useTexture([urls[0], urls[1], urls[2], urls[0], urls[0], urls[0]]);
 
   const [shuffled] = React.useState([t, t, t]);
 
@@ -29,7 +29,10 @@ const MultiColorPlane = ({ urls, value }) => {
   const mask = useTexture("/images/mask.jpg");
 
   return (
-    <group scale={viewport.height}>
+    <group
+      rotation-z={Math.PI * -0.5}
+      scale={[viewport.width, viewport.width, viewport.width]}
+    >
       {meshData.map((data, i) => (
         <MeshElement
           mask={mask}

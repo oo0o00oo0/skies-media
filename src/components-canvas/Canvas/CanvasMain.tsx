@@ -14,7 +14,6 @@ type Props = {
 };
 
 function CanvasMain({ urls, value, save }: Props) {
-  console.log();
   return (
     <Wr>
       <CanvasWrapper>
@@ -40,8 +39,10 @@ export default CanvasMain;
 
 const CanvasWrapper = styled.div`
   height: 100%;
-  min-height: 70vh;
-  height: 70vh;
+  width: 3448px;
+  height: 1080px;
+  /* min-height: 3; */
+  /* height: 70vh; */
   border: #8b8b8b solid 2px;
 `;
 
