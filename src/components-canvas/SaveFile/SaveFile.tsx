@@ -2,34 +2,6 @@ import React from "react";
 import { useThree } from "@react-three/fiber";
 import { Vector2 } from "three";
 
-// const saveFile = (gl: any, scene: any, camera: any, count: any) => {
-//   gl.render(scene, camera);
-//   const image = gl.domElement.toDataURL("image/png");
-//   const a = document.createElement("a");
-//   a.href = image;
-//   a.download = "frame_" + count + ".png"; // where frameNumber is the current frame number
-//   a.click();
-// };
-
-// const saveFile = async (gl, scene, camera, count) => {
-//   gl.render(scene, camera);
-//   const image = gl.domElement.toDataURL("image/png");
-
-//   const response = await fetch("http://localhost:3000/save-image", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify({ image, count }),
-//   });
-
-//   if (response.ok) {
-//     console.log("Image sent to server successfully");
-//   } else {
-//     console.log("Failed to send image to server");
-//   }
-// };
-
 const saveFile = async (gl, scene, camera, count, width, height) => {
   // Save the original size
   const originalSize = gl.getSize(new Vector2());
@@ -75,9 +47,6 @@ const SaveFile = ({ value, save }) => {
     if (save) saveFile(gl, scene, camera, count, 3438, 1080); // specify desired width and height
   }, [save, gl, scene, camera, count]);
 
-  // React.useEffect(() => {
-  //   if (save) saveFile(gl, scene, camera, count);
-  // }, [save, gl, scene, camera, count]);
   return null;
 };
 

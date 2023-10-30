@@ -8,7 +8,7 @@ import { fileNames } from "@data/fileNames";
 import styled from "styled-components";
 
 // const step = 0.05;
-const step = 0.005;
+const step = 0.015;
 
 function App() {
   // const urls = fileNames.map((file) => `/images/atlas/${file}.jpg`);
@@ -57,7 +57,7 @@ function App() {
         save={save}
         setSave={setSave}
         step={step}
-        files={fileNames}
+        // files={fileNames}
         start={start}
         reset={reset}
         setVal={setValue}

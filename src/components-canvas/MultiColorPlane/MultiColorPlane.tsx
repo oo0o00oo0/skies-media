@@ -3,15 +3,38 @@ import { useThree } from "@react-three/fiber";
 import React from "react";
 import MultiColourMaterial from "../MultiColourMaterial/MultiColourMaterial";
 import { useTexture } from "@react-three/drei";
+import { purps } from "@data/purps";
+import { blues } from "@data/blues";
+import { quadFiles } from "@data/quad";
+
 // import { shuffle } from "lodash-es";
 
+interface MeshElementProps {
+  data: {
+    ids: number[];
+    position: number[];
+  };
+  url: string;
+  mask: THREE.Texture;
+  maskUVs: number[];
+}
 const MultiColorPlane = ({ urls, value }) => {
   const { viewport, invalidate } = useThree();
-  // TODO WERID ARRAY MAPPING
-  const textures = useTexture(urls);
-  const t = useTexture([urls[0], urls[1], urls[2], urls[0], urls[0], urls[0]]);
 
-  const [shuffled] = React.useState([t, t, t]);
+  // const mut = [...urls];
+
+  const textures = useTexture(urls);
+  const t = useTexture(urls);
+  const p = useTexture(purps.map((p) => `/sets/${p}`));
+  const b = useTexture(blues.map((p) => `/sets/${p}`));
+  const quad = useTexture(quadFiles.map((p) => `/sets/${p}`));
+
+  const c = useTexture(
+    new Array(urls.length).fill(`images/skies/sky.arena_45.jpg`)
+  );
+  const g = useTexture(
+    new Array(urls.length).fill(`images/skies/sky.arena_88.jpg`)
+  );
 
   const refs = meshData.map(() => React.createRef<any>());
 
@@ -19,19 +42,23 @@ const MultiColorPlane = ({ urls, value }) => {
     refs.forEach((ref, i) => {
       ref.current.updateBuffer(
         value,
-        shuffled[i % shuffled.length],
-        UVARRAY[i]
+        // shuffled[i % shuffled.length],
+        [c[i], p[i], g[i], b[i], c[i]],
+        UVARRAY[i],
+        i
       );
     });
     invalidate();
-  }, [invalidate, value, refs, textures, shuffled]);
+  }, [invalidate, value, refs, textures, c, t, g, p, b]);
 
   const mask = useTexture("/images/mask.jpg");
 
   return (
     <group
-      rotation-z={Math.PI * -0.5}
-      scale={[viewport.width, viewport.width, viewport.width]}
+      scale={[viewport.height, viewport.height, viewport.height]}
+
+      // rotation-z={Math.PI * -0.5}
+      // scale={[viewport.width, viewport.width, viewport.width]}
     >
       {meshData.map((data, i) => (
         <MeshElement
@@ -46,16 +73,6 @@ const MultiColorPlane = ({ urls, value }) => {
     </group>
   );
 };
-
-interface MeshElementProps {
-  data: {
-    ids: number[];
-    position: number[];
-  };
-  url: string;
-  mask: THREE.Texture;
-  maskUVs: number[];
-}
 
 const MeshElement = React.forwardRef(
   ({ data, mask, maskUVs }: MeshElementProps, ref) => {
@@ -100,6 +117,12 @@ const MeshElement = React.forwardRef(
             itemSize={1}
           />
 
+          <bufferAttribute
+            attach="attributes-uv_big"
+            array={Float32Array.from(maskUVs)}
+            count={maskUVs.length}
+            itemSize={2}
+          />
           <bufferAttribute
             attach="attributes-uv"
             array={Float32Array.from(maskUVs)}

@@ -27,6 +27,7 @@ uniform sampler2D uTextureAtlas;
 
 in vec2 vUv;
 in vec2 vUv2;
+in vec2 vUvBig;
 in vec2 vUvmask;
 
 layout(location = 0) out vec4 fragColor;
@@ -37,23 +38,19 @@ void main() {
 
   vec4 mask = texture(uMask, vUvmask);
 
-  vec4 _texture = texture(uTexture, uVBlend);
-  vec4 _texture2 = texture(uNextTexture, uVBlend);
+  vec4 disp = texture(uTexture, vUvBig);
+  vec4 disp2 = texture(uNextTexture, vUvBig);
+
+  vec2 distortedPosition = vec2(uVBlend.y + uBlend * (disp.r * 1.0), uVBlend.x);
+  vec2 distortedPosition2 = vec2(uVBlend.y - (1.0 - uBlend) * (disp2.r * 1.0), uVBlend.x);
+
+  // vec2 mixedUV_0 = mix(uVBlend, distortedPosition, uVBlend.r);
+  // vec2 mixedUV_1 = mix(uVBlend, distortedPosition2, uVBlend.r);
+
+  vec4 _texture = texture(uTexture, distortedPosition);
+  vec4 _texture2 = texture(uNextTexture, distortedPosition2);
 
   vec4 finalTexture = mix(_texture, _texture2, uBlend);
-  // fragColor = vec4(finalTexture.xyz, 1.);
   fragColor = vec4(finalTexture.xyz, mask.r);
-  // fragColor = vec4(uBlend, 0.2, 0.6, 1.);
 
 }
-
-  // vec4 disp = texture(uTexture, uv_grid_blend);
-  // vec4 disp2 = texture(uNextTexture, uv_grid_blend);
-
-  // vec2 distortedPosition = vec2(uv_grid_blend2.x + uBlend * (disp.r * 1.0), uv_grid_blend2.y);
-  // vec2 distortedPosition2 = vec2(uv_grid_blend2.x - (1.0 - uBlend) * (disp2.r * 1.0), uv_grid_blend2.y);
-
-  // vec4 _texture = texture(uTexture, distortedPosition);
-  // vec4 _texture2 = texture(uNextTexture, distortedPosition2);
-  // vec4 _texture_1 = texture(uTexture_1, distortedPosition);
-  // vec4 _texture2_1 = texture(uNextTexture_1, distortedPosition2);

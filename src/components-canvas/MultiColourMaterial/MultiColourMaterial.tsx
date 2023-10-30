@@ -34,10 +34,11 @@ const MultiColourMaterial = React.forwardRef(({ mask }: Props, ref) => {
     const index = {
       value: Math.floor(value),
     };
-    shaderRef.current.uniforms.uTexture.value =
-      textures[index.value % textures.length];
+
+    shaderRef.current.uniforms.uTexture.value = textures[index.value % 5];
+
     shaderRef.current.uniforms.uNextTexture.value =
-      textures[(index.value + 1) % textures.length];
+      textures[(index.value + 1) % 5];
     shaderRef.current.uniforms.uBlend.value = value - index.value;
   };
 

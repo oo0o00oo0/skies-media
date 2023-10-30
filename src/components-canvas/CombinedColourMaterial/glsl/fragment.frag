@@ -55,14 +55,10 @@ void main() {
   vec4 _texture = texture(uTexture, distortedPosition);
   vec4 _texture2 = texture(uNextTexture, distortedPosition2);
 
-  vec4 _texture_1 = texture(uTexture_1, distortedPosition);
-  vec4 _texture2_1 = texture(uNextTexture_1, distortedPosition2);
+  // vec4 _texture_1 = texture(uTexture_1, distortedPosition);
+  // vec4 _texture2_1 = texture(uNextTexture_1, distortedPosition2);
 
   vec4 finalTexture = mix(_texture, _texture2, uBlend);
-
-  // if(vUv.y > 0.5) {
-  //   finalTexture = mix(_texture_1, _texture2_1, uBlend);
-  // }
 
   fragColor = vec4(finalTexture.xyz, mask.r);
 }

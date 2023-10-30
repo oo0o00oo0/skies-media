@@ -1,8 +1,12 @@
 import styled from "styled-components";
 
+const NUM = 6;
+
+const arr = Array.from({ length: NUM }, (_, i) => i);
+
 const Controls = ({
   step,
-  files,
+  // files,
   handleChange,
   setVal,
   value,
@@ -28,14 +32,16 @@ const Controls = ({
       <InputWrapper
         type="range"
         min="0"
-        max={files.length - 1}
+        // max={files.length - 1}
+        max={NUM - 1}
         value={value}
         step={step}
         onChange={handleChange}
       />
       <ValueWrapper>{value}</ValueWrapper>
       <ValuesWrapper>
-        {files.map((_, index) => (
+        {/* {files.map((_, index) => ( */}
+        {arr.map((_, index) => (
           <Number
             style={{
               background: value >= index ? "#ACB5BF" : "",
