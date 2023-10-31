@@ -38,14 +38,14 @@ void main() {
 
   vec4 mask = texture(uMask, vUvmask);
 
-  vec4 disp = texture(uTexture, vUvBig);
-  vec4 disp2 = texture(uNextTexture, vUvBig);
-
-  vec2 distortedPosition = vec2(uVBlend.y + uBlend * (disp.r * 1.0), uVBlend.x);
-  vec2 distortedPosition2 = vec2(uVBlend.y - (1.0 - uBlend) * (disp2.r * 1.0), uVBlend.x);
+  vec4 disp = texture(uTexture, uVBlend);
+  vec4 disp2 = texture(uNextTexture, uVBlend);
 
   // vec2 mixedUV_0 = mix(uVBlend, distortedPosition, uVBlend.r);
   // vec2 mixedUV_1 = mix(uVBlend, distortedPosition2, uVBlend.r);
+
+  vec2 distortedPosition = vec2(uVBlend.y + uBlend * (disp.r * 1.0), uVBlend.x);
+  vec2 distortedPosition2 = vec2(uVBlend.y - (1.0 - uBlend) * (disp2.r * 1.0), uVBlend.x);
 
   vec4 _texture = texture(uTexture, distortedPosition);
   vec4 _texture2 = texture(uNextTexture, distortedPosition2);

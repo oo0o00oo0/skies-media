@@ -39,9 +39,8 @@ function CanvasMain({ urls, value, save }: Props) {
 export default CanvasMain;
 
 const CanvasWrapper = styled.div`
-  /* height: 100%; */
-  /* min-height: 3; */
-  /* height: 85vh; */
+  /* height: 100%;
+  height: 85vh; */
   width: 3448px;
   height: 1080px;
   border: #8b8b8b solid 2px;

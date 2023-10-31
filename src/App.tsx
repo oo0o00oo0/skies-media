@@ -8,7 +8,7 @@ import { fileNames } from "@data/fileNames";
 import styled from "styled-components";
 
 // const step = 0.05;
-const step = 0.015;
+const step = 0.005;
 
 function App() {
   // const urls = fileNames.map((file) => `/images/atlas/${file}.jpg`);
