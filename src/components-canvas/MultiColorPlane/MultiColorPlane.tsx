@@ -6,22 +6,20 @@ import { useTexture } from "@react-three/drei";
 import { purps } from "@data/purps";
 import { blues } from "@data/blues";
 import { quadFiles } from "@data/quad";
-
-// import { shuffle } from "lodash-es";
+import { fileNames } from "@data/fileNames";
 
 interface MeshElementProps {
   data: {
     ids: number[];
     position: number[];
   };
-  url: string;
   mask: THREE.Texture;
   maskUVs: number[];
 }
-const MultiColorPlane = ({ urls, value }) => {
+const MultiColorPlane = ({ value }) => {
   const { viewport, invalidate } = useThree();
 
-  // const mut = [...urls];
+  const urls = fileNames.map((file) => `/images/skies/${file}.jpg`);
 
   const textures = useTexture(urls);
   const t = useTexture(urls);
@@ -49,7 +47,7 @@ const MultiColorPlane = ({ urls, value }) => {
       );
     });
     invalidate();
-  }, [invalidate, value, refs, textures, c, t, g, p, b]);
+  }, [invalidate, value, refs, textures, c, t, g, p, b, quad]);
 
   const mask = useTexture("/images/mask.jpg");
 
@@ -65,7 +63,6 @@ const MultiColorPlane = ({ urls, value }) => {
           mask={mask}
           maskUVs={MASK_UVS[i]}
           ref={refs[i]}
-          url={urls[i]}
           key={i}
           data={data}
         />

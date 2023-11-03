@@ -32,7 +32,6 @@ const Controls = ({
       <InputWrapper
         type="range"
         min="0"
-        // max={files.length - 1}
         max={NUM - 1}
         value={value}
         step={step}
@@ -40,7 +39,6 @@ const Controls = ({
       />
       <ValueWrapper>{value}</ValueWrapper>
       <ValuesWrapper>
-        {/* {files.map((_, index) => ( */}
         {arr.map((_, index) => (
           <Number
             style={{
@@ -60,12 +58,15 @@ const Controls = ({
 export default Controls;
 
 const ControlsWrapper = styled.div`
-  flex-grow: 1;
-  box-sizing: border-box;
-
+  border-top: #212252 solid 2px;
+  flex-shrink: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  * {
+    font-size: 10px;
+  }
 `;
 
 const ButtonWrapper = styled.div`
@@ -74,17 +75,12 @@ const ButtonWrapper = styled.div`
 
 const Button = styled.button`
   transition: 0.2s ease-in-out;
-  border: black solid 2px;
   box-sizing: border-box;
-  flex: 1;
 `;
 const Number = styled.button`
   transition: 0.2s ease-in-out;
-  border: black solid 2px;
   box-sizing: border-box;
   flex: 1;
-
-  font-size: 10px;
 `;
 
 const InputWrapper = styled.input`
@@ -95,14 +91,10 @@ const InputWrapper = styled.input`
 
 const ValueWrapper = styled.div`
   text-align: left;
-  /* border: red solid 2px; */
-  margin-bottom: 8px;
-  width: 60px;
 `;
 
 const ValuesWrapper = styled.div`
   display: flex;
   align-items: center;
-  /* gap: 4px; */
   flex-wrap: wrap;
 `;

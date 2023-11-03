@@ -1,52 +1,52 @@
+import React from "react";
 import { OrbitControls, OrthographicCamera } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
 import { Vector3 } from "three";
 import styled from "styled-components";
 import SaveFile from "../SaveFile/SaveFile";
-import MultiColorPlane from "../MultiColorPlane/MultiColorPlane";
+import ShaderSkies from "../ShaderSkies/ShaderSkies";
+// import MultiColorPlane from "../MultiColorPlane/MultiColorPlane";
 // import CombinedColourPlane from "../CombinedColourPlane/CombinedColourPlane";
 
 type Props = {
-  urls: string[];
   value: number;
   save: boolean;
 };
 
-function CanvasMain({ urls, value, save }: Props) {
+function CanvasMain({ value, save }: Props) {
+  const wrRef = React.useRef<HTMLDivElement>(null);
+
   return (
-    <Wr>
-      <CanvasWrapper>
-        <Canvas
-          dpr={window.devicePixelRatio}
-          frameloop="demand"
-          gl={{ preserveDrawingBuffer: true }}
-          flat
-        >
-          <OrbitControls />
-          <OrthographicCamera zoom={1} position={new Vector3(0, 0, 1)} />
-          <Suspense fallback={null}>
-            {/* <CombinedColourPlane save={save} value={value} urls={urls} /> */}
-            <MultiColorPlane value={value} urls={urls} />
-            <SaveFile save={save} value={value} />
-          </Suspense>
-        </Canvas>
-      </CanvasWrapper>
+    <Wr ref={wrRef}>
+      <Canvas
+        dpr={window.devicePixelRatio}
+        // frameloop="demand"
+        gl={{ preserveDrawingBuffer: true }}
+        flat
+      >
+        <OrbitControls />
+        <OrthographicCamera zoom={1} position={new Vector3(0, 0, 1)} />
+        <Suspense fallback={null}>
+          <ShaderSkies />
+          {/* <CombinedColourPlane save={save} value={value} urls={urls} /> */}
+          {/* <MultiColorPlane value={value} /> */}
+          <SaveFile save={save} value={value} />
+        </Suspense>
+      </Canvas>
     </Wr>
   );
 }
 
 export default CanvasMain;
 
-const CanvasWrapper = styled.div`
-  /* height: 100%;
-  height: 85vh; */
-  width: 3448px;
-  height: 1080px;
-  border: #8b8b8b solid 2px;
-`;
-
 const Wr = styled.div`
-  flex-shrink: 1;
-  padding: 20px;
+  canvas {
+    border: orange solid 1px;
+  }
+  /* width: 3448px; */
+  /* height: 1080px; */
+  flex-grow: 1;
+  width: 100vw;
+  height: 100%;
 `;
