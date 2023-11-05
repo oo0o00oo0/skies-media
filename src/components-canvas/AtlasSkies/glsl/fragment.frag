@@ -23,7 +23,7 @@ in vec2 vUv;
 layout(location = 0) out vec4 fragColor;
 
 #define ATLAS_X_T 1. / 16.
-#define ATLAS_Y_T 1. / 3.
+#define ATLAS_Y_T 1. / 2.
 
 uniform vec2 uGridSize_0;
 uniform vec2 uGridSize_1;
@@ -61,10 +61,11 @@ void main() {
   vec2 atlas_0 = vec2(uvMult_0.x * ATLAS_X_T + uOffset_0.x + grayscaleX_0, uvMult_0.y * ATLAS_Y_T + uOffset_0.y);
 
   vec4 disp_0 = texture(uTexture, atlas_0);
-  // // vec4 disp_0 = texture(uTexture, vUv);
+  // vec4 disp_0 = texture(uTexture, vUv);
   vec2 distortedPosition_0 = vec2(clamp(atlas_0.x + uBlend * (disp_0.r * 1.0), grayscaleX_0 + uOffset_0.x, grayscaleX_0 + uOffset_0.x + ATLAS_X_T), atlas_0.y);
   // vec2 distortedPosition_0 = vec2(atlas_0.x + uBlend * (disp_0.r * 1.0), atlas_0.y);
 
+  // vec4 texture_0 = texture(uTexture, atlas_0);
   vec4 texture_0 = texture(uTexture, distortedPosition_0);
 
   /////////////////////////////////////////////////////////////////////////////////
@@ -89,14 +90,16 @@ void main() {
 
   vec4 disp_1 = texture(uTexture, atlas_1);
   // // vec4 disp_1 = texture(uTexture, vUv);
-  vec2 distortedPosition_1 = vec2(clamp(atlas_1.x - (1.0 - uBlend) * (disp_1.r * 1.0), grayscaleX_1, grayscaleX_1 + 0.1), atlas_1.y);
-  // vec2 distortedPosition_1 = vec2(atlas_1.x - (1.0 - uBlend) * (disp_1.r * 1.0), atlas_1.y);
+  // vec2 distortedPosition_1 = vec2(clamp(atlas_1.x - (1.0 - uBlend) * (disp_1.r * 1.0), grayscaleX_1, grayscaleX_1 + 0.1), atlas_1.y);
+  vec2 distortedPosition_1 = vec2(atlas_1.x - (1.0 - uBlend) * (disp_1.r * 1.0), atlas_1.y);
 
+  // vec4 texture_1 = texture(uNextTexture, atlas_1);
   vec4 texture_1 = texture(uNextTexture, distortedPosition_1);
 
   /////////////////////////////////////////////////////////////////////////////////
   vec4 finalTexture = mix(texture_0, texture_1, uBlend);
-  fragColor = vec4(LinearTosRGB(finalTexture).xyz, 1.);
+  // fragColor = vec4(LinearTosRGB(finalTexture).xyz, 1.);
+  fragColor = vec4(finalTexture.xyz, 1.);
   /////////////////////////////////////////////////////////////////////////////////
 
   // vec2 vis = mix(distortedPosition_0, distortedPosition_1, uBlend);

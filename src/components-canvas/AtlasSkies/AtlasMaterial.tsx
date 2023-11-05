@@ -4,9 +4,10 @@ import * as THREE from "three";
 import vertex from "./glsl/vertex.glsl";
 //@ts-ignore
 import fragment from "./glsl/fragment.frag";
-import { extend, useLoader, useThree } from "@react-three/fiber";
+import { extend, useThree } from "@react-three/fiber";
 
 import shaderMaterial from "@lib/dreiShaderMaterial";
+import { useTexture } from "@react-three/drei";
 
 type Props = {
   value: number;
@@ -38,8 +39,12 @@ extend({ AtlasShader });
 const AtlasMaterial = (props: Props) => {
   const { invalidate } = useThree();
 
-  const t = useLoader(THREE.TextureLoader, "/atlas/atlas_01.jpg");
+  // const t = useLoader(THREE.TextureLoader, [
+  //   "/atlas/atlas_01.jpg",
+  //   "/atlas/atlas_02.jpg",
+  // ]);
 
+  const t = useTexture(["/atlas/atlas_01.jpg", "/atlas/atlas_02.jpg"]);
   // const t2 = useLoader(THREE.TextureLoader, "/atlas/atlas_02.jpg");
 
   // t.colorSpace = THREE.LinearSRGBColorSpace;
@@ -48,7 +53,7 @@ const AtlasMaterial = (props: Props) => {
   const { value } = props;
 
   const shaderRef = React.useRef<any>();
-  const [textures] = React.useState([t, t]);
+  const [textures] = React.useState([...t]);
 
   React.useLayoutEffect(() => {
     updateShader(shaderRef.current, {
@@ -80,9 +85,9 @@ const gridSizes = [
   // [1, 2],
   // [4, 2],
   [1, 1],
+  [2, 2],
   [4, 4],
-  // [1, 2],
-  // [4, 2],
+  [2, 4],
 ];
 
 const uvOffset = [
@@ -90,6 +95,7 @@ const uvOffset = [
   // [2 / 16, 2 / 3],
   // [1 / 16, 1 / 3],
   [0, 0],
+  [1 / 16, 1 / 2],
   // [0, 1 / 3],
 ];
 
