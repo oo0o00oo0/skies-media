@@ -2,9 +2,9 @@ import React from "react";
 import Controls from "./Controls";
 import { animate } from "@lib/animate";
 
-const limit = 10;
+const limit = 5;
 // const step = 1 / limit;
-const step = 0.025;
+const step = 0.005;
 
 const UISave = ({
   value,

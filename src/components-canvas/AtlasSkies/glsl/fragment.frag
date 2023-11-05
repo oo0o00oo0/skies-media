@@ -62,8 +62,8 @@ void main() {
 
   vec4 disp_0 = texture(uTexture, atlas_0);
   // // vec4 disp_0 = texture(uTexture, vUv);
-  // vec2 distortedPosition_0 = vec2(clamp(atlas_0.x + uBlend * (disp_0.r * 1.0), grayscaleX_0 + uOffset_0.x, grayscaleX_0 + uOffset_0.x + ATLAS_X_T), atlas_0.y);
-  vec2 distortedPosition_0 = vec2(atlas_0.x + uBlend * (disp_0.r * 1.0), atlas_0.y);
+  vec2 distortedPosition_0 = vec2(clamp(atlas_0.x + uBlend * (disp_0.r * 1.0), grayscaleX_0 + uOffset_0.x, grayscaleX_0 + uOffset_0.x + ATLAS_X_T), atlas_0.y);
+  // vec2 distortedPosition_0 = vec2(atlas_0.x + uBlend * (disp_0.r * 1.0), atlas_0.y);
 
   vec4 texture_0 = texture(uTexture, distortedPosition_0);
 
@@ -89,7 +89,8 @@ void main() {
 
   vec4 disp_1 = texture(uTexture, atlas_1);
   // // vec4 disp_1 = texture(uTexture, vUv);
-  vec2 distortedPosition_1 = vec2(atlas_1.x - (1.0 - uBlend) * (disp_1.r * 1.0), atlas_1.y);
+  vec2 distortedPosition_1 = vec2(clamp(atlas_1.x - (1.0 - uBlend) * (disp_1.r * 1.0), grayscaleX_1, grayscaleX_1 + 0.1), atlas_1.y);
+  // vec2 distortedPosition_1 = vec2(atlas_1.x - (1.0 - uBlend) * (disp_1.r * 1.0), atlas_1.y);
 
   vec4 texture_1 = texture(uNextTexture, distortedPosition_1);
 
@@ -99,10 +100,10 @@ void main() {
   /////////////////////////////////////////////////////////////////////////////////
 
   // vec2 vis = mix(distortedPosition_0, distortedPosition_1, uBlend);
-  vec2 visD = mix(distortedPosition_0, distortedPosition_1, uBlend);
-  if(vUv.x + vUv.y > 1.) {
-    fragColor = LinearTosRGB(vec4(finalTexture.rgba));
-  } else {
-    fragColor = vec4(vec2(visD.xy), 1., 1.);
-  }
+  // vec2 visD = mix(distortedPosition_0, distortedPosition_1, uBlend);
+  // if(vUv.x + vUv.y > 1.) {
+  //   fragColor = LinearTosRGB(vec4(finalTexture.rgba));
+  // } else {
+  //   fragColor = vec4(vec2(visD.xy), 1., 1.);
+  // }
 }
