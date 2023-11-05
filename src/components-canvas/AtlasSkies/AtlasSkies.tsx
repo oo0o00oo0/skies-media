@@ -6,8 +6,15 @@ const AtlasSkies = ({ value }) => {
 
   return (
     <group>
-      <mesh scale={[viewport.height, viewport.height, viewport.height]}>
-        <planeGeometry args={[0.314085, 1, 1]} />
+      <mesh
+        scale={[
+          viewport.height * 0.5,
+          viewport.height * 0.5,
+          viewport.height * 0.5,
+        ]}
+      >
+        {/* <planeGeometry args={[0.314085, 1, 1]} /> */}
+        <planeGeometry args={[1, 1.7, 1]} />
         <AtlasMaterial value={value} />
         {/* <CombinedColourMaterial mask={mask} value={value} textures={textures} /> */}
       </mesh>

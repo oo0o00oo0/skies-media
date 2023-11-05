@@ -46,29 +46,22 @@ void main() {
 
     // Calculate the index of the current cell
   float grayscaleValuesY[gridSize * gridSize];
-  grayscaleValuesY[0] = 0.5; // Bottom-left
-  grayscaleValuesY[1] = 0.5; // Bottom-right
-  grayscaleValuesY[2] = 0.5; // Top-left
-  grayscaleValuesY[3] = 0.5; // Top-right
+  grayscaleValuesY[0] = 0.0; // Bottom-left
+  grayscaleValuesY[1] = 0.0; // Bottom-right
+  grayscaleValuesY[2] = 0.0; // Top-left
+  grayscaleValuesY[3] = 0.0; // Top-right
 
   int cellIndex = cellY * gridSize + cellX; // for a 2x2 grid
-    // Calculate the index of the current cell
+  // Calculate the index of the current cell
 
-    // Use the cellIndex to get the grayscale value for the current cell
+  // Use the cellIndex to get the grayscale value for the current cell
   float grayscaleX = grayscaleValuesX[cellIndex];
   float grayscaleY = grayscaleValuesY[cellIndex];
 
   vec2 uvMult = fract(vec2(vUv.x * float(gridSize), vUv.y * float(gridSize)));
 
-  // vec2 atlas_position = vec2((uvMult.x * xScale) + grayscaleX, (uvMult.y * yScale) + grayscaleY);
-  // vec4 textTest = texture(uTexture, atlas_position);
-
   vec2 atlas_pos_0 = vec2(uvMult.x * xScale + uOffset_0.x + grayscaleX, uvMult.y * yScale + uOffset_0.y + grayscaleY);
   vec2 atlas_pos_1 = vec2(uvMult.x * xScale + uOffset_1.x + grayscaleX, uvMult.y * yScale + uOffset_1.y + grayscaleY);
-
-  // vec2 stepping = step(atlas_position, vec2(0.02));
-
-  ///
 
   vec4 texture_0_pos_0 = texture(uTexture, atlas_pos_0);
   vec4 texture_1_pos_0 = texture(uNextTexture, atlas_pos_1);
@@ -76,13 +69,10 @@ void main() {
   vec4 texture_0_pos_1 = texture(uTexture, atlas_pos_0);
   vec4 texture_1_pos_1 = texture(uNextTexture, atlas_pos_1);
   vec4 texture_1 = mix(texture_0_pos_1, texture_1_pos_1, uBlend);
-  // vec4 finalTexture = LinearTosRGB(mix(texture_0, texture_1, uBlend));
-  vec4 finalTexture = mix(texture_0, texture_1, uBlend); // This will switch between the textures based on uBlend
+
+  vec4 finalTexture = LinearTosRGB(mix(texture_0, texture_1, uBlend));
+  // vec4 finalTexture = mix(texture_0, texture_1, uBlend); // This will switch between the textures based on uBlend
 
   fragColor = vec4(finalTexture.xyz, 1.);
-  // fragColor = vec4(vec3(stepping.x), 1.);
-
-  // fragColor = vec4(vec3(textTest.rgb), 1.);
-  // fragColor = vec4(vec3(atlas_position.x, atlas_position.y, 0.), 1.);
 
 }
