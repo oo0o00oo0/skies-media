@@ -10,9 +10,6 @@ uniform float uMix;
 uniform sampler2D uTexture;
 uniform sampler2D uNextTexture;
 
-uniform float uOpacity_0;
-uniform float uOpacity_1;
-
 uniform vec2 uUV_0;
 uniform vec2 uUV_1;
 
@@ -30,8 +27,11 @@ layout(location = 0) out vec4 fragColor;
 
 void main() {
 
-  vec2 atlas_pos_0 = vec2(vUv.x * xScale + uOffset_0.x, vUv.y * yScale + uOffset_0.y);
-  vec2 atlas_pos_1 = vec2(vUv.x * xScale + uOffset_1.x, vUv.y * yScale + uOffset_1.y);
+  vec2 atlas_pos_0 = vec2(vUv.x * uUV_0.x + uOffset_0.x, vUv.y * uUV_0.y + uOffset_0.y);
+  vec2 atlas_pos_1 = vec2(vUv.x * uUV_1.x + uOffset_1.x, vUv.y * uUV_1.y + uOffset_1.y);
+
+  atlas_pos_0 = fract(atlas_pos_0);
+  atlas_pos_1 = fract(atlas_pos_1);
 
   vec4 texture_0_pos_0 = texture(uTexture, atlas_pos_0);
   vec4 texture_1_pos_0 = texture(uNextTexture, atlas_pos_1);

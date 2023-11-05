@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const NUM = 6;
+const NUM = 16;
 
 const arr = Array.from({ length: NUM }, (_, i) => i);
 

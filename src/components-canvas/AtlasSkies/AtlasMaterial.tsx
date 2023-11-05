@@ -5,14 +5,11 @@ import vertex from "./glsl/vertex.glsl";
 //@ts-ignore
 import fragment from "./glsl/fragment.frag";
 import { extend, useLoader, useThree } from "@react-three/fiber";
-import { shuffle } from "lodash-es";
 
 import shaderMaterial from "@lib/dreiShaderMaterial";
 
 type Props = {
-  textures: any[];
   value: number;
-  mask: THREE.Texture;
 };
 
 const AtlasShader = shaderMaterial(
@@ -22,9 +19,6 @@ const AtlasShader = shaderMaterial(
     uNextTexture: { value: THREE.Texture },
     uMask: { value: THREE.Texture },
     uBlend: 0.0,
-
-    uOpacity_0: { value: 0.0 },
-    uOpacity_1: { value: 0.0 },
 
     uUV_0: { value: THREE.Vector2 },
     uUV_1: { value: THREE.Vector2 },
@@ -47,11 +41,10 @@ const AtlasMaterial = (props: Props) => {
   t.colorSpace = THREE.LinearSRGBColorSpace;
   t2.colorSpace = THREE.LinearSRGBColorSpace;
 
-  const textures = [t, t2];
-
   const { value } = props;
 
   const shaderRef = React.useRef<any>();
+  const [textures] = React.useState([t, t2]);
 
   React.useEffect(() => {
     updateShader(shaderRef.current, {
@@ -59,7 +52,7 @@ const AtlasMaterial = (props: Props) => {
       value,
     });
     invalidate();
-  }, [invalidate, value]);
+  }, [invalidate, textures, value]);
 
   return (
     // @ts-ignore
@@ -77,7 +70,20 @@ const AtlasMaterial = (props: Props) => {
 
 export default AtlasMaterial;
 
+const uvScale = [
+  [0.25, 0.5],
+  [0.25, 1],
+];
+
 const uvOffset = [
+  [0.0, 0.0],
+  [0.0, 0.0],
+  [0.25, 0.0],
+  [0.25, 0.0],
+  [0.5, 0.0],
+  [0.5, 0.0],
+  [0.75, 0.0],
+  [0.75, 0.0],
   [0.0, 0.5],
   [0.0, 0.5],
   [0.25, 0.5],
@@ -88,12 +94,7 @@ const uvOffset = [
   [0.75, 0.5],
 ];
 
-const offset = [0, 1];
-
-export const updateShader = (
-  shader: THREE.ShaderMaterial,
-  { textures, value }
-) => {
+const updateShader = (shader: THREE.ShaderMaterial, { textures, value }) => {
   const index = {
     value: Math.floor(value),
   };
@@ -104,8 +105,14 @@ export const updateShader = (
   shader.uniforms.uNextTexture.value =
     textures[(index.value + 1) % textures.length];
 
-  shader.uniforms.uOpacity_0.value = offset[index.value % offset.length];
-  shader.uniforms.uOpacity_1.value = (index.value + 1) % offset.length;
+  shader.uniforms.uUV_0.value = new THREE.Vector2(
+    ...uvScale[index.value % uvScale.length]
+  );
+  shader.uniforms.uUV_1.value = new THREE.Vector2(
+    ...uvScale[(index.value + 1) % uvScale.length]
+  );
+
+  ////
 
   shader.uniforms.uOffset_0.value = new THREE.Vector2(
     ...uvOffset[index.value % uvOffset.length]
