@@ -46,7 +46,7 @@ const AtlasMaterial = (props: Props) => {
   const shaderRef = React.useRef<any>();
   const [textures] = React.useState([t, t2]);
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     updateShader(shaderRef.current, {
       textures: textures,
       value,
@@ -70,12 +70,13 @@ const AtlasMaterial = (props: Props) => {
 
 export default AtlasMaterial;
 
-const uvScale = [
-  [0.25, 0.5],
-  [0.25, 0.5],
-];
+// const uvScale = [
+//   [0.25, 0.5],
+//   [0.25, 0.5],
+// ];
 
 const uvOffset = [
+  // [0.0, 0.0],
   [0.0, 0.0],
   [0.0, 0.0],
   [0.25, 0.0],

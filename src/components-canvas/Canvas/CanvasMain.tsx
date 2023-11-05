@@ -24,7 +24,7 @@ function CanvasMain({ value, save }: Props) {
         dpr={window.devicePixelRatio}
         frameloop="demand"
         gl={{ preserveDrawingBuffer: true }}
-        flat
+        // flat
       >
         <OrbitControls />
         <OrthographicCamera zoom={1} position={new Vector3(0, 0, 1)} />
