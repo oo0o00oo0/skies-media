@@ -1,5 +1,5 @@
 import React from "react";
-import { OrthographicCamera } from "@react-three/drei";
+import { OrbitControls, OrthographicCamera } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
 import { Vector3 } from "three";
@@ -26,7 +26,7 @@ function CanvasMain({ value, save }: Props) {
         gl={{ preserveDrawingBuffer: true }}
         flat
       >
-        {/* <OrbitControls /> */}
+        <OrbitControls />
         <OrthographicCamera zoom={1} position={new Vector3(0, 0, 1)} />
         <Suspense fallback={null}>
           {/* <ShaderSkies /> */}

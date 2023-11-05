@@ -72,7 +72,7 @@ export default AtlasMaterial;
 
 const uvScale = [
   [0.25, 0.5],
-  [0.25, 1],
+  [0.25, 0.5],
 ];
 
 const uvOffset = [
@@ -105,12 +105,12 @@ const updateShader = (shader: THREE.ShaderMaterial, { textures, value }) => {
   shader.uniforms.uNextTexture.value =
     textures[(index.value + 1) % textures.length];
 
-  shader.uniforms.uUV_0.value = new THREE.Vector2(
-    ...uvScale[index.value % uvScale.length]
-  );
-  shader.uniforms.uUV_1.value = new THREE.Vector2(
-    ...uvScale[(index.value + 1) % uvScale.length]
-  );
+  // shader.uniforms.uUV_0.value = new THREE.Vector2(
+  //   ...uvScale[index.value % uvScale.length]
+  // );
+  // shader.uniforms.uUV_1.value = new THREE.Vector2(
+  //   ...uvScale[(index.value + 1) % uvScale.length]
+  // );
 
   ////
 

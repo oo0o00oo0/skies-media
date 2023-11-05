@@ -27,11 +27,11 @@ layout(location = 0) out vec4 fragColor;
 
 void main() {
 
-  vec2 atlas_pos_0 = vec2(vUv.x * uUV_0.x + uOffset_0.x, vUv.y * uUV_0.y + uOffset_0.y);
-  vec2 atlas_pos_1 = vec2(vUv.x * uUV_1.x + uOffset_1.x, vUv.y * uUV_1.y + uOffset_1.y);
+  // vec2 uvMult = vec2(vUv.x * 2.0, vUv.y * 4.0);
+  vec2 uvMult = fract(vec2(vUv.x * 2.0, vUv.y * 4.0));
 
-  atlas_pos_0 = fract(atlas_pos_0);
-  atlas_pos_1 = fract(atlas_pos_1);
+  vec2 atlas_pos_0 = vec2(uvMult.x * xScale + uOffset_0.x, uvMult.y * yScale + uOffset_0.y);
+  vec2 atlas_pos_1 = vec2(uvMult.x * xScale + uOffset_1.x, uvMult.y * yScale + uOffset_1.y);
 
   vec4 texture_0_pos_0 = texture(uTexture, atlas_pos_0);
   vec4 texture_1_pos_0 = texture(uNextTexture, atlas_pos_1);
@@ -47,4 +47,5 @@ void main() {
   vec4 finalTexture = mix(texture_0, texture_1, uBlend); // This will switch between the textures based on uBlend
 
   fragColor = vec4(finalTexture.xyz, 1.);
+
 }
