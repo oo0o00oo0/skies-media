@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const NUM = 16;
+const NUM = 4;
 
 const arr = Array.from({ length: NUM }, (_, i) => i);
 
@@ -32,7 +32,7 @@ const Controls = ({
       <InputWrapper
         type="range"
         min="0"
-        max={NUM - 1}
+        max={NUM}
         value={value}
         step={step}
         onChange={handleChange}

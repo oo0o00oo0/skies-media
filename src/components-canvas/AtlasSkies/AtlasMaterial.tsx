@@ -39,15 +39,16 @@ const AtlasMaterial = (props: Props) => {
   const { invalidate } = useThree();
 
   const t = useLoader(THREE.TextureLoader, "/atlas/atlas_01.jpg");
-  const t2 = useLoader(THREE.TextureLoader, "/atlas/atlas_02.jpg");
 
-  t.colorSpace = THREE.LinearSRGBColorSpace;
-  t2.colorSpace = THREE.LinearSRGBColorSpace;
+  // const t2 = useLoader(THREE.TextureLoader, "/atlas/atlas_02.jpg");
+
+  // t.colorSpace = THREE.LinearSRGBColorSpace;
+  // t2.colorSpace = THREE.LinearSRGBColorSpace;
 
   const { value } = props;
 
   const shaderRef = React.useRef<any>();
-  const [textures] = React.useState([t, t2]);
+  const [textures] = React.useState([t, t]);
 
   React.useLayoutEffect(() => {
     updateShader(shaderRef.current, {
@@ -75,20 +76,24 @@ export default AtlasMaterial;
 
 const gridSizes = [
   [1, 1],
-  [1, 2],
-  [1, 4],
+  [2, 2],
+  [4, 4],
 ];
 
 const uvOffset = [
   // [0.0, 0.0],
-  [0.125, 0.0],
-  [0.125, 0.0],
-  [0.0, 0.0],
-  [0.0, 0.0],
-  [0.25, 0.0],
-  [0.25, 0.0],
-  [0.5, 0.0],
-  [0.5, 0.0],
+  [0, 0],
+  [1 / 16, 0],
+  [2 / 16, 0],
+  [3 / 16, 0],
+  // [0.125, 0.0],
+  // [0.125, 0.0],
+  // [0.0, 0.0],
+  // [0.0, 0.0],
+  // [0.25, 0.0],
+  // [0.25, 0.0],
+  // [0.5, 0.0],
+  // [0.5, 0.0],
   // [0.5, 0.0],
   // [0.5, 0.0],
   // [0.75, 0.0],
@@ -104,29 +109,26 @@ const uvOffset = [
 ];
 
 const updateShader = (shader: THREE.ShaderMaterial, { textures, value }) => {
-  const index = {
-    value: Math.floor(value),
-  };
+  const index = Math.floor(value);
 
-  shader.uniforms.uBlend.value = value - index.value;
+  shader.uniforms.uBlend.value = value - index;
 
-  shader.uniforms.uTexture.value = textures[index.value % textures.length];
-  shader.uniforms.uNextTexture.value =
-    textures[(index.value + 1) % textures.length];
+  shader.uniforms.uTexture.value = textures[index % textures.length];
+  shader.uniforms.uNextTexture.value = textures[(index + 1) % textures.length];
 
   shader.uniforms.uGridSize_0.value = new THREE.Vector2(
-    ...gridSizes[index.value % gridSizes.length]
+    ...gridSizes[index % gridSizes.length]
   );
   shader.uniforms.uGridSize_1.value = new THREE.Vector2(
-    ...gridSizes[(index.value + 1) % gridSizes.length]
+    ...gridSizes[(index + 1) % gridSizes.length]
   );
 
   ////
 
   shader.uniforms.uOffset_0.value = new THREE.Vector2(
-    ...uvOffset[index.value % uvOffset.length]
+    ...uvOffset[index % uvOffset.length]
   );
   shader.uniforms.uOffset_1.value = new THREE.Vector2(
-    ...uvOffset[(index.value + 1) % uvOffset.length]
+    ...uvOffset[(index + 1) % uvOffset.length]
   );
 };

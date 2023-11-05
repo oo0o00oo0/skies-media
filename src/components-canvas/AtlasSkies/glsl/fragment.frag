@@ -74,10 +74,17 @@ void main() {
   /////////////////////////////////////////////////////////////////////////////////
 
   vec4 finalTexture = mix(texture_0, texture_1, uBlend);
-  fragColor = vec4(finalTexture.xyz, 1.);
+  fragColor = vec4(LinearTosRGB(finalTexture).xyz, 1.);
 
   // vec2 vis = mix(atlas_0, atlas_1, uBlend);
+  // vec4 finalTexture = texture(uTexture, vis);
+  // fragColor = vec4((finalTexture.rgb), 1.);
 
-  // fragColor = vec4(vec2(vis.xy), 1., 1.);
+  // if(vUv.x > 0.5) {
+  //   fragColor = vec4((finalTexture.rgb), 1.);
+  // } else {
+
+  //   fragColor = vec4(vec2(vis.xy), 1., 1.);
+  // }
 
 }
