@@ -32,16 +32,6 @@ uniform vec2 uGridSize_1;
 
 void main() {
 
-  // Assuming that the displacement value is in the range [0, 1]
-// and we want to clamp the distortion within the cell bounds,
-// we can calculate the maximum distortion allowed based on the cell size.
-
-// Clamp the distortion so it doesn't go beyond the cell's boundaries
-
-// Apply the clamped distortion to the atlas coordinates
-
-  // vec4 texture_0 = texture(uTexture, distortedPosition_0);
-
   /////////////////////////////////////////////////////////////////////////////////
 
   float cellWidth_0 = 1. / uGridSize_0.x;

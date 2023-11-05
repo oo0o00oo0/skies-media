@@ -44,8 +44,8 @@ export default CanvasMain;
 
 const Wr = styled.div`
   canvas {
-    border: orange solid 1px;
   }
+  /* border: orange solid 1px; */
   /* width: 3448px; */
   /* height: 1080px; */
   flex-grow: 1;
