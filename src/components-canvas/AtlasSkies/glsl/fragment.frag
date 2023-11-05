@@ -90,8 +90,8 @@ void main() {
 
   vec4 disp_1 = texture(uTexture, atlas_1);
   // // vec4 disp_1 = texture(uTexture, vUv);
-  // vec2 distortedPosition_1 = vec2(clamp(atlas_1.x - (1.0 - uBlend) * (disp_1.r * 1.0), grayscaleX_1, grayscaleX_1 + 0.1), atlas_1.y);
-  vec2 distortedPosition_1 = vec2(atlas_1.x - (1.0 - uBlend) * (disp_1.r * 1.0), atlas_1.y);
+  vec2 distortedPosition_1 = vec2(clamp(atlas_1.x - (1.0 - uBlend) * (disp_1.r * 1.0), grayscaleX_1, grayscaleX_1 + 0.1), atlas_1.y);
+  // vec2 distortedPosition_1 = vec2(atlas_1.x - (1.0 - uBlend) * (disp_1.r * 1.0), atlas_1.y);
 
   // vec4 texture_1 = texture(uNextTexture, atlas_1);
   vec4 texture_1 = texture(uNextTexture, distortedPosition_1);
