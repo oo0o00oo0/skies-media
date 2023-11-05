@@ -7,12 +7,13 @@ import * as THREE from "three";
 import vertexShader from "./glsl/vertex.vert";
 //@ts-ignore
 import fragmentShader from "./glsl/fragment.frag";
-import { invalidate, useLoader, useThree } from "@react-three/fiber";
+import { invalidate, useThree } from "@react-three/fiber";
 import { fileNames } from "@data/fileNames";
 
 const ShaderSkies = () => {
   const mesh = React.useRef<any>();
   const urls = fileNames.map((file) => `/images/skies/${file}.jpg`);
+  console.log(urls);
 
   let { width: dim } = useThree().viewport;
 
