@@ -22,56 +22,76 @@ in vec2 vUv;
 
 layout(location = 0) out vec4 fragColor;
 
-#define xScale 0.25
-#define yScale 0.5
-#define gridSize 2
+#define xScale 1. / 16.
+#define yScale 1.
+
+uniform vec2 uGridSize_0;
+uniform vec2 uGridSize_1;
+
+#define MAX_GRID_LENGTH 64
 
 void main() {
 
-  // Determine the width and height of each grid cell
-  float cellWidth = 0.5; // 2 columns -> 1/2 the width
-  float cellHeight = 0.5; // 2 rows -> 1/2 the height
+  float cellWidth_0 = 1. / uGridSize_0.x; // 2 columns -> 1/2 the width
+  float cellHeight_0 = 1. / uGridSize_0.y; // 2 rows -> 1/2 the height
 
-  // Determine which cell the current fragment falls into
-  int cellX = int(vUv.x / cellWidth);
-  int cellY = int(vUv.y / cellHeight);
+  float cellWidth_1 = 1. / uGridSize_1.x; // 2 columns -> 1/2 the width
+  float cellHeight_1 = 1. / uGridSize_1.y; // 2 rows -> 1/2 the height
 
-    // Define the grayscale values for each of the 4 cells
-    // Starting from the bottom-left and moving to the right and upwards
-  float grayscaleValuesX[gridSize * gridSize];
-  grayscaleValuesX[0] = 0.0; // Bottom-left
-  grayscaleValuesX[1] = 0.25; // Bottom-right
-  grayscaleValuesX[2] = 0.5; // Top-left
-  grayscaleValuesX[3] = 0.75; // Top-right
+  int cellX_0 = int(vUv.x / cellWidth_0);
+  int cellY_0 = int(vUv.y / cellHeight_0);
 
-    // Calculate the index of the current cell
-  float grayscaleValuesY[gridSize * gridSize];
-  grayscaleValuesY[0] = 0.0; // Bottom-left
-  grayscaleValuesY[1] = 0.0; // Bottom-right
-  grayscaleValuesY[2] = 0.0; // Top-left
-  grayscaleValuesY[3] = 0.0; // Top-right
+  int cellX_1 = int(vUv.x / cellWidth_1);
+  int cellY_1 = int(vUv.y / cellHeight_1);
 
-  int cellIndex = cellY * gridSize + cellX; // for a 2x2 grid
-  // Calculate the index of the current cell
+  int length_0 = int(uGridSize_0.x * uGridSize_0.y);
+  int length_1 = int(uGridSize_1.x * uGridSize_1.y);
 
-  // Use the cellIndex to get the grayscale value for the current cell
-  float grayscaleX = grayscaleValuesX[cellIndex];
-  float grayscaleY = grayscaleValuesY[cellIndex];
+  float grayscaleValuesX_0[MAX_GRID_LENGTH];
+  float grayscaleValuesX_1[MAX_GRID_LENGTH];
 
-  vec2 uvMult = fract(vec2(vUv.x * float(gridSize), vUv.y * float(gridSize)));
+  for(int i = 0; i < length_0; i++) {
+    grayscaleValuesX_0[i] = float(i) / (float(uGridSize_0.x) * float(uGridSize_0.y));
+  }
 
-  vec2 atlas_pos_0 = vec2(uvMult.x * xScale + uOffset_0.x + grayscaleX, uvMult.y * yScale + uOffset_0.y + grayscaleY);
-  vec2 atlas_pos_1 = vec2(uvMult.x * xScale + uOffset_1.x + grayscaleX, uvMult.y * yScale + uOffset_1.y + grayscaleY);
+  for(int i = 0; i < length_1; i++) {
+    grayscaleValuesX_1[i] = float(i) / (float(uGridSize_1.x) * float(uGridSize_1.y));
+  }
 
-  vec4 texture_0_pos_0 = texture(uTexture, atlas_pos_0);
-  vec4 texture_1_pos_0 = texture(uNextTexture, atlas_pos_1);
+  int cellIndex_0 = cellY_0 * int(uGridSize_0.x) + cellX_0;
+  int cellIndex_1 = cellY_1 * int(uGridSize_1.x) + cellX_1;
+
+  float grayscaleX_0 = grayscaleValuesX_0[cellIndex_0];
+  float grayscaleX_1 = grayscaleValuesX_1[cellIndex_1];
+
+  vec2 uvMult_0 = fract(vec2(vUv.x * float(uGridSize_0.x), vUv.y * float(uGridSize_0.y)));
+  vec2 uvMult_1 = fract(vec2(vUv.x * float(uGridSize_1.x), vUv.y * float(uGridSize_1.y)));
+
+  vec2 atlas_pos_0_0 = vec2(uvMult_0.x * xScale + uOffset_0.x + grayscaleX_0, uvMult_0.y * yScale + uOffset_0.y);
+  vec2 atlas_pos_0_1 = vec2(uvMult_1.x * xScale + uOffset_0.x + grayscaleX_1, uvMult_0.y * yScale + uOffset_0.y);
+
+  vec2 atlas_pos_1_0 = vec2(uvMult_0.x * xScale + uOffset_1.x + grayscaleX_0, uvMult_0.y * yScale + uOffset_1.y);
+  vec2 atlas_pos_1_1 = vec2(uvMult_1.x * xScale + uOffset_1.x + grayscaleX_1, uvMult_1.y * yScale + uOffset_1.y);
+/////////////
+
+  vec4 disp = texture(uTexture, vUv);
+  vec4 disp2 = texture(uNextTexture, vUv);
+
+  vec2 distortedPosition = vec2(atlas_pos_1_0.x + uBlend * (disp.r * 1.0), atlas_pos_1_0.y);
+  vec2 distortedPosition2 = vec2(atlas_pos_1_0.x - (1.0 - uBlend) * (disp2.r * 1.0), atlas_pos_1_0.y);
+
+/////////////
+  vec4 texture_0_pos_0 = texture(uTexture, atlas_pos_0_0);
+  vec4 texture_1_pos_0 = texture(uNextTexture, atlas_pos_0_1);
+
   vec4 texture_0 = mix(texture_0_pos_0, texture_1_pos_0, uBlend);
-  vec4 texture_0_pos_1 = texture(uTexture, atlas_pos_0);
-  vec4 texture_1_pos_1 = texture(uNextTexture, atlas_pos_1);
+
+  vec4 texture_0_pos_1 = texture(uTexture, atlas_pos_1_0);
+  vec4 texture_1_pos_1 = texture(uNextTexture, atlas_pos_1_1);
+
   vec4 texture_1 = mix(texture_0_pos_1, texture_1_pos_1, uBlend);
 
   vec4 finalTexture = LinearTosRGB(mix(texture_0, texture_1, uBlend));
-  // vec4 finalTexture = mix(texture_0, texture_1, uBlend); // This will switch between the textures based on uBlend
 
   fragColor = vec4(finalTexture.xyz, 1.);
 

@@ -20,6 +20,9 @@ const AtlasShader = shaderMaterial(
     uMask: { value: THREE.Texture },
     uBlend: 0.0,
 
+    uGridSize_0: { value: THREE.Vector2 },
+    uGridSize_1: { value: THREE.Vector2 },
+
     uUV_0: { value: THREE.Vector2 },
     uUV_1: { value: THREE.Vector2 },
     uOffset_0: { value: THREE.Vector2 },
@@ -70,17 +73,22 @@ const AtlasMaterial = (props: Props) => {
 
 export default AtlasMaterial;
 
-// const uvScale = [
-//   [0.25, 0.5],
-//   [0.25, 0.5],
-// ];
+const gridSizes = [
+  [1, 1],
+  [2, 2],
+  [4, 4],
+];
 
 const uvOffset = [
+  // [0.0, 0.0],
+  [0.125, 0.0],
+  [0.125, 0.0],
   [0.0, 0.0],
-  // [0.0, 0.0],
-  // [0.0, 0.0],
-  // [0.25, 0.0],
-  // [0.25, 0.0],
+  [0.0, 0.0],
+  [0.25, 0.0],
+  [0.25, 0.0],
+  [0.5, 0.0],
+  [0.5, 0.0],
   // [0.5, 0.0],
   // [0.5, 0.0],
   // [0.75, 0.0],
@@ -106,12 +114,12 @@ const updateShader = (shader: THREE.ShaderMaterial, { textures, value }) => {
   shader.uniforms.uNextTexture.value =
     textures[(index.value + 1) % textures.length];
 
-  // shader.uniforms.uUV_0.value = new THREE.Vector2(
-  //   ...uvScale[index.value % uvScale.length]
-  // );
-  // shader.uniforms.uUV_1.value = new THREE.Vector2(
-  //   ...uvScale[(index.value + 1) % uvScale.length]
-  // );
+  shader.uniforms.uGridSize_0.value = new THREE.Vector2(
+    ...gridSizes[index.value % gridSizes.length]
+  );
+  shader.uniforms.uGridSize_1.value = new THREE.Vector2(
+    ...gridSizes[(index.value + 1) % gridSizes.length]
+  );
 
   ////
 

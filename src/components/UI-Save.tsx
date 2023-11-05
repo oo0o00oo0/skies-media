@@ -4,7 +4,7 @@ import { animate } from "@lib/animate";
 
 const limit = 10;
 // const step = 1 / limit;
-const step = 0.05;
+const step = 0.025;
 
 const UISave = ({
   value,
