@@ -3,7 +3,8 @@ import Controls from "./Controls";
 import { animate } from "@lib/animate";
 
 const limit = 10;
-const step = 1 / limit;
+// const step = 1 / limit;
+const step = 0.05;
 
 const UISave = ({
   value,

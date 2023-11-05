@@ -81,6 +81,7 @@ const Number = styled.button`
   transition: 0.2s ease-in-out;
   box-sizing: border-box;
   flex: 1;
+  padding: 2px;
 `;
 
 const InputWrapper = styled.input`
@@ -91,6 +92,7 @@ const InputWrapper = styled.input`
 
 const ValueWrapper = styled.div`
   text-align: left;
+  color: white;
 `;
 
 const ValuesWrapper = styled.div`

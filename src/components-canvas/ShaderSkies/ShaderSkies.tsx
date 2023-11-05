@@ -18,7 +18,7 @@ const ShaderSkies = () => {
 
   dim *= 0.9;
 
-  const image_0 = useLoader(THREE.TextureLoader, urls[0]);
+  // const image_0 = useLoader(THREE.TextureLoader, urls[0]);
   // const image_1 = useLoader(THREE.TextureLoader, urls[1]);
 
   const uniforms = React.useMemo(
