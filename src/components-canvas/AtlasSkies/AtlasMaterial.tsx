@@ -75,8 +75,8 @@ export default AtlasMaterial;
 
 const gridSizes = [
   [1, 1],
-  [2, 2],
-  [4, 4],
+  [1, 2],
+  [1, 4],
 ];
 
 const uvOffset = [
