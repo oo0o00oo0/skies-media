@@ -26,7 +26,7 @@ uniform sampler2D uMask;
 uniform sampler2D uTextureAtlas;
 
 in vec2 vUv;
-in vec2 vUvfill;
+in vec2 vUv2;
 
 in vec2 uvBlend;
 
@@ -41,6 +41,8 @@ float random(in vec2 st) {
 }
 
 void main() {
+
+  vec2 uvBlend = mix(vUv, vUv2, uBlend);
   // vec4 mask = texture(uMask, vec2(vUv.y, vUv.x));
 
   // vec2 t0 = vec2(vUv.x, vUv.y) * uUV_0;
@@ -51,11 +53,11 @@ void main() {
   // vec2 uv_grid_blend = mix(t0, t1, uBlend);
   // vec2 uv_grid_blend2 = mix(t0, t1, uBlend);
 
-  vec4 disp = texture(uDisplaceTexture, vUvfill);
+  // vec4 disp = texture(uDisplaceTexture, vUvNext);
   // vec4 disp2 = texture(uNextTexture, uv_grid_blend);
 
   // vec2 distortedPosition = vec2(vUvfill.x * (disp.r * 1.0), vUvfill.y);
-  vec2 distortedPosition = uvBlend;
+  // vec2 distortedPosition = uvBlend;
   // vec2 distortedPosition = vec2(uv_grid_blend2.x + uBlend * (disp.r * 1.0), uv_grid_blend2.y);
   // vec2 distortedPosition2 = vec2(uv_grid_blend2.x - (1.0 - uBlend) * (disp2.r * 1.0), uv_grid_blend2.y);
 
@@ -68,7 +70,7 @@ void main() {
   // vec4 finalTexture = mix(_texture, _texture2, uBlend);
 
   vec4 colour_0 = LinearTosRGB(texture(uTexture, uvBlend));
-  vec4 colour_1 = LinearTosRGB(texture(uNextTexture, uvBlend));
+  vec4 colour_1 = LinearTosRGB(texture(uTexture, uvBlend));
   // vec4 colour_1 = LinearTosRGB(texture(uNextTexture, mix(distortedPosition, vUvfill, uTime)));
 
   vec4 colour = mix(colour_1, colour_0, uBlend);

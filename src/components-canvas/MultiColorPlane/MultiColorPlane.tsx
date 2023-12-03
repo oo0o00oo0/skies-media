@@ -89,6 +89,7 @@ const MeshElement = React.forwardRef(
       uvNextAttribute.set(
         Float32Array.from(UVARRAY[(index.value + 1) % UVARRAY.length])
       );
+
       uvNextAttribute.needsUpdate = true;
       shaderRef.current.updateShader(value, textures);
     };

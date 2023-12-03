@@ -4,7 +4,7 @@ import * as THREE from "three";
 import vertex from "./glsl/vertex.glsl";
 //@ts-ignore
 import fragment from "./glsl/fragment.frag";
-import { extend, useFrame } from "@react-three/fiber";
+import { extend } from "@react-three/fiber";
 
 import shaderMaterial from "@lib/dreiShaderMaterial";
 // import { updateShader } from "@lib/shaderUtils";
@@ -44,46 +44,48 @@ const MultiCellShader = shaderMaterial(
 
 extend({ MultiCellShader });
 
-const MultiCellMaterial = ({ image, nextImage, disp }: Props) => {
-  // const { textures, value, mask } = props;
+const MultiCellMaterial = React.forwardRef(
+  ({ image, nextImage, disp }: Props, ref) => {
+    const shaderRef = React.useRef<any>();
 
-  const shaderRef = React.useRef<any>();
+    const steps = 4;
 
-  useFrame(({ clock }) => {
-    shaderRef.current.uniforms.uBlend.value =
-      Math.sin(clock.getElapsedTime()) * 0.5 + 0.5;
-    // console.log(clock.getElapsedTime());
-  });
-  // const [shuffled] = React.useState<any[]>(shuffle(textures));
+    const updateShader = (value) => {
+      // const index = Math.floor(value);
+      const index = Math.floor(value * steps);
 
-  // React.useEffect(() => {
-  //   updateShader(shaderRef.current, {
-  //     textures: textures,
-  //     shuffle: shuffled,
-  //     value,
-  //   });
-  //   invalidate();
-  // }, [invalidate, shuffled, textures, value]);
+      const blendFactor = value * steps - index;
 
-  return (
-    // @ts-ignore
-    <multiCellShader
-      ref={shaderRef}
-      side={THREE.DoubleSide}
-      glslVersion={THREE.GLSL3}
-      uTexture={image}
-      uTime={0.0}
-      uDisplaceTexture={disp}
-      uNextTexture={nextImage}
-      // uTextures={textures.slice(0, 12)}
-      // uMask={mask}
-      uUV_0={new THREE.Vector2(1.0, 1.0)}
-      uUV_1={new THREE.Vector2(1.0, 1.0)}
-      transparent={true}
-      // ref={shaderRef}
-      toneMapped={false}
-    />
-  );
-};
+      // console.log(index);
+
+      // shaderRef.current.uniforms.uTexture.value = textures[index % 6];
+
+      // shaderRef.current.uniforms.uNextTexture.value = textures[(index + 1) % 6];
+      shaderRef.current.uniforms.uBlend.value = blendFactor;
+    };
+
+    React.useImperativeHandle(ref, () => ({
+      updateShader,
+    }));
+    return (
+      // @ts-ignore
+      <multiCellShader
+        side={THREE.DoubleSide}
+        glslVersion={THREE.GLSL3}
+        uTexture={image}
+        uTime={0.0}
+        uDisplaceTexture={disp}
+        uNextTexture={nextImage}
+        // uTextures={textures.slice(0, 12)}
+        // uMask={mask}
+        uUV_0={new THREE.Vector2(1.0, 1.0)}
+        uUV_1={new THREE.Vector2(1.0, 1.0)}
+        transparent={true}
+        ref={shaderRef}
+        toneMapped={false}
+      />
+    );
+  }
+);
 
 export default MultiCellMaterial;

@@ -22,15 +22,15 @@ function CanvasMain({ value, save }: Props) {
   return (
     <Wr ref={wrRef}>
       <Canvas
-        dpr={window.devicePixelRatio}
-        // frameloop="demand"
+        dpr={1.5}
+        frameloop="demand"
         gl={{ preserveDrawingBuffer: true }}
         // flat
       >
         <OrbitControls />
         <OrthographicCamera zoom={1} position={new Vector3(0, 0, -1)} />
         <Suspense fallback={null}>
-          <MultiCell />
+          <MultiCell value={value} />
           {/* <ShaderSkies /> */}
           {/* <AtlasSkies value={value} /> */}
           {/* <CombinedColourPlane save={save} value={value} /> */}

@@ -1,5 +1,4 @@
-// import React from 'react'
-
+import React from "react";
 import { fileNames } from "@data/fileNames";
 import { meshDataCells } from "@data/meshData-multi-cell";
 import { useTexture } from "@react-three/drei";
@@ -8,7 +7,7 @@ import { useThree } from "@react-three/fiber";
 import MultiCellMaterial from "./MultiCellMaterial/MultiCellMaterial";
 import { cell_data } from "./multi-cell-data";
 
-const MultiCell = () => {
+const MultiCell = ({ value }) => {
   const { viewport } = useThree();
 
   const URLS = fileNames.map((fileName) => `/images/skies/${fileName}.jpg`);
@@ -21,10 +20,12 @@ const MultiCell = () => {
     >
       {meshDataCells.map((data, i) => (
         <Cell
+          value={value}
           key={i}
           data={data}
           disp={skies[0]}
-          image={skies[0]}
+          image={skies[58]}
+          UVARRAY={[data.uv, data.uv_fill, data.uv_1]}
           // image={skies[cell_data[i]]}
           nextImage={skies[cell_data[i]]}
         />
@@ -33,10 +34,38 @@ const MultiCell = () => {
   );
 };
 
-const Cell = ({ data, image, nextImage, disp }) => {
+const Cell = ({ data, image, nextImage, disp, value, UVARRAY }) => {
+  const ref = React.useRef<any>();
+
+  const { invalidate } = useThree();
+
+  const geoRef = React.useRef<any>();
+  const steps = 4;
+  React.useEffect(() => {
+    const index = Math.floor(value * steps);
+
+    // console.log(index);
+
+    const uvAttribute = geoRef.current.attributes.uv;
+    uvAttribute.set(Float32Array.from(UVARRAY[index % UVARRAY.length]));
+
+    uvAttribute.needsUpdate = true;
+
+    const uvNextAttribute = geoRef.current.attributes.uvNext;
+    uvNextAttribute.set(
+      Float32Array.from(UVARRAY[(index + 1) % UVARRAY.length])
+    );
+
+    uvNextAttribute.needsUpdate = true;
+
+    ref.current.updateShader(value);
+
+    invalidate();
+  }, [UVARRAY, invalidate, value]);
+
   return (
     <mesh>
-      <bufferGeometry>
+      <bufferGeometry ref={geoRef}>
         <bufferAttribute
           attach="attributes-position"
           array={Float32Array.from(data.position)}
@@ -50,7 +79,7 @@ const Cell = ({ data, image, nextImage, disp }) => {
           itemSize={2}
         />
         <bufferAttribute
-          attach="attributes-uvfill"
+          attach="attributes-uvNext"
           array={Float32Array.from(data.uv_fill)}
           count={data.position.length}
           itemSize={2}
@@ -89,7 +118,12 @@ const Cell = ({ data, image, nextImage, disp }) => {
         itemSize={2}
       /> */}
       </bufferGeometry>
-      <MultiCellMaterial image={image} nextImage={nextImage} disp={disp} />
+      <MultiCellMaterial
+        ref={ref}
+        image={image}
+        nextImage={nextImage}
+        disp={disp}
+      />
     </mesh>
   );
 };
