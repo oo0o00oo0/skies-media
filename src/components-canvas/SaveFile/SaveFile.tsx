@@ -5,7 +5,6 @@ import { Vector2 } from "three";
 const saveFile = async (gl, scene, camera, count, width, height) => {
   // Save the original size
   const originalSize = gl.getSize(new Vector2());
-
   // Set the desired output size
   gl.setSize(width, height, false);
 
@@ -44,7 +43,6 @@ const SaveFile = ({ value, save }) => {
   }, [value]);
 
   React.useEffect(() => {
-    console.log("save");
     if (save) saveFile(gl, scene, camera, count, 3438, 1080); // specify desired width and height
   }, [save, gl, scene, camera, count]);
 

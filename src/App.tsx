@@ -10,7 +10,7 @@ function App() {
 
   return (
     <AppWrap>
-      <CanvasMain save={false} value={value} />
+      <CanvasMain save={save} value={value} />
       <UISave
         save={save}
         setSave={setSave}
