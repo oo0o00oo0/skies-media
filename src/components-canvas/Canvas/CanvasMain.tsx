@@ -5,9 +5,10 @@ import { Suspense } from "react";
 import { Vector3 } from "three";
 import styled from "styled-components";
 import SaveFile from "../SaveFile/SaveFile";
-import AtlasSkies from "../AtlasSkies/AtlasSkies";
+// import AtlasSkies from "../AtlasSkies/AtlasSkies";
 // import ShaderSkies from "../ShaderSkies/ShaderSkies";
 // import MultiColorPlane from "../MultiColorPlane/MultiColorPlane";
+import MultiCell from "../MultiCell/MultiCell";
 // import CombinedColourPlane from "../CombinedColourPlane/CombinedColourPlane";
 
 type Props = {
@@ -22,16 +23,17 @@ function CanvasMain({ value, save }: Props) {
     <Wr ref={wrRef}>
       <Canvas
         dpr={window.devicePixelRatio}
-        frameloop="demand"
+        // frameloop="demand"
         gl={{ preserveDrawingBuffer: true }}
         // flat
       >
         <OrbitControls />
-        <OrthographicCamera zoom={1} position={new Vector3(0, 0, 1)} />
+        <OrthographicCamera zoom={1} position={new Vector3(0, 0, -1)} />
         <Suspense fallback={null}>
+          <MultiCell />
           {/* <ShaderSkies /> */}
-          <AtlasSkies value={value} />
-          {/* <CombinedColourPlane save={save} value={value} urls={urls} /> */}
+          {/* <AtlasSkies value={value} /> */}
+          {/* <CombinedColourPlane save={save} value={value} /> */}
           {/* <MultiColorPlane value={value} /> */}
           <SaveFile save={save} value={value} />
         </Suspense>

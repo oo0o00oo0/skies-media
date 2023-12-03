@@ -80,23 +80,19 @@ const AtlasMaterial = (props: Props) => {
 export default AtlasMaterial;
 
 const gridSizes = [
-  // [1, 1],
-  // [4, 4],
-  // [1, 2],
-  // [4, 2],
-  [4, 2],
+  [1, 1],
+  [2, 2],
+  [4, 4],
   [2, 2],
   [1, 1],
-  [4, 4],
-  [1, 1],
-  [2, 4],
+  [2, 2],
 ];
 
 const uvOffset = [
-  // [0.0, 0.0],
+  [0.0, 0.0],
   // [2 / 16, 2 / 3],
   // [1 / 16, 1 / 3],
-  [0, 0],
+  // [0, 0],
   // [1 / 16, 1 / 3],
   // [0, 1 / 3],
 ];
@@ -105,6 +101,7 @@ const updateShader = (shader: THREE.ShaderMaterial, { textures, value }) => {
   const index = Math.floor(value);
 
   shader.uniforms.uBlend.value = value - index;
+  console.log(shader.uniforms.uBlend.value);
 
   shader.uniforms.uTexture.value = textures[index % textures.length];
   shader.uniforms.uNextTexture.value = textures[(index + 1) % textures.length];

@@ -53,10 +53,10 @@ const MultiColorPlane = ({ value }) => {
 
   return (
     <group
-      // scale={[viewport.height, viewport.height, viewport.height]}
+      scale={[viewport.height, viewport.height, viewport.height]}
 
-      rotation-z={Math.PI * -0.5}
-      scale={[viewport.width, viewport.width, viewport.width]}
+      // rotation-z={Math.PI * -0.5}
+      // scale={[viewport.width, viewport.width, viewport.width]}
     >
       {meshData.map((data, i) => (
         <MeshElement
