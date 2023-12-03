@@ -44,6 +44,7 @@ const SaveFile = ({ value, save }) => {
   }, [value]);
 
   React.useEffect(() => {
+    console.log("save");
     if (save) saveFile(gl, scene, camera, count, 3438, 1080); // specify desired width and height
   }, [save, gl, scene, camera, count]);
 

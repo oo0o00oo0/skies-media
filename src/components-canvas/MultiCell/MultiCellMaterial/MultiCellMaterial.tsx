@@ -10,9 +10,9 @@ import shaderMaterial from "@lib/dreiShaderMaterial";
 // import { updateShader } from "@lib/shaderUtils";
 
 type Props = {
-  image: THREE.Texture;
   disp: THREE.Texture;
-  nextImage: THREE.Texture;
+  mask: THREE.Texture;
+  textures: THREE.Texture[];
 };
 
 const MultiCellShader = shaderMaterial(
@@ -45,22 +45,12 @@ const MultiCellShader = shaderMaterial(
 extend({ MultiCellShader });
 
 const MultiCellMaterial = React.forwardRef(
-  ({ image, nextImage, disp }: Props, ref) => {
+  ({ disp, textures, mask }: Props, ref) => {
     const shaderRef = React.useRef<any>();
 
-    const steps = 4;
-
-    const updateShader = (value) => {
-      // const index = Math.floor(value);
-      const index = Math.floor(value * steps);
-
-      const blendFactor = value * steps - index;
-
-      // console.log(index);
-
-      // shaderRef.current.uniforms.uTexture.value = textures[index % 6];
-
-      // shaderRef.current.uniforms.uNextTexture.value = textures[(index + 1) % 6];
+    const updateShader = ({ INDEX_0, INDEX_1 }, blendFactor) => {
+      shaderRef.current.uniforms.uTexture.value = textures[INDEX_0];
+      shaderRef.current.uniforms.uNextTexture.value = textures[INDEX_1];
       shaderRef.current.uniforms.uBlend.value = blendFactor;
     };
 
@@ -72,12 +62,12 @@ const MultiCellMaterial = React.forwardRef(
       <multiCellShader
         side={THREE.DoubleSide}
         glslVersion={THREE.GLSL3}
-        uTexture={image}
         uTime={0.0}
         uDisplaceTexture={disp}
-        uNextTexture={nextImage}
+        uTexture={textures[0]}
+        uNextTexture={textures[1]}
         // uTextures={textures.slice(0, 12)}
-        // uMask={mask}
+        uMask={mask}
         uUV_0={new THREE.Vector2(1.0, 1.0)}
         uUV_1={new THREE.Vector2(1.0, 1.0)}
         transparent={true}

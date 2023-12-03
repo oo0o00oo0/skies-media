@@ -9,7 +9,7 @@ export const animate = (draw: () => void, { limit, reset }) => {
       clearInterval(timer);
       reset();
     }
-  }, 70);
+  }, 200);
 
   return timer;
 };

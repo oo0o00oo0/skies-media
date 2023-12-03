@@ -47,8 +47,8 @@ void main() {
   vec2 distortedPosition = vec2(uVBlend.y + uBlend * (disp.r * 1.0), uVBlend.x);
   vec2 distortedPosition2 = vec2(uVBlend.y - (1.0 - uBlend) * (disp2.r * 1.0), uVBlend.x);
 
-  vec4 _texture = texture(uTexture, distortedPosition);
-  vec4 _texture2 = texture(uNextTexture, distortedPosition2);
+  vec4 _texture = texture(uTexture, uVBlend);
+  vec4 _texture2 = texture(uNextTexture, uVBlend2);
 
   vec4 finalTexture = mix(_texture, _texture2, uBlend);
   fragColor = vec4(finalTexture.xyz, mask.r);

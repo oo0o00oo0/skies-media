@@ -25,6 +25,7 @@ app.use(
 app.use(express.json({ limit: "50mb" }));
 
 app.post("/save-image", (req, res) => {
+  console.log("first");
   const { image, count } = req.body;
   const data = image.replace(/^data:image\/\w+;base64,/, "");
   const buffer = Buffer.from(data, "base64");
